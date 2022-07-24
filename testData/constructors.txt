@@ -1,6 +1,6 @@
 /**
  * 
- * @param T
+ * @param [T]
  * @property strings [Array<out String>]
  * @property aInt [Int]
  * @property bInt [Int]
