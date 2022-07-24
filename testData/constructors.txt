@@ -1,9 +1,9 @@
 /**
  * 
  * @param T
- * @property strings Array<out String>
- * @property aInt Int
- * @property bInt Int
+ * @property strings [Array<out String>]
+ * @property aInt [Int]
+ * @property bInt [Int]
  * @constructor
  */
 class A<T>(t: String, private vararg val strings: String) {
