@@ -57,48 +57,41 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		return buildString {
 			// @receiver
 			owner.receiverTypeReference?.let {
-				append(RECEIVER, pair)
-				appendLF(it.text)
+				appendDoc(RECEIVER, pair, it.text)
 			}
 
 			// @param
 			owner.valueParameters.forEach {
 				val param = it.nameIdentifier?.text ?: ""
 				val type = it.itsType
-				append(PARAM, pair)
 				// add a space before `param` and after is no used
-				append("$param $type")
-				appendLF()
+				appendDoc(PARAM, pair, param, " ", type)
 			}
 
 			// @return
 			if (owner.hasDeclaredReturnType()) {
-				append(RETURN, pair)
-				append(owner.typeReference?.typeElement?.text)
-				appendLF()
+				appendDoc(RETURN, pair, owner.typeReference?.typeElement?.text)
 			}
 			else {
 				owner.itsType.let {
 					if (isAlwaysShowUnitReturnType || it != "Unit") {
-						append(RETURN, pair)
-						append(it)
-						appendLF()
+						appendDoc(RETURN, pair, it)
 					}
 				}
 			}
 
 			// @throws
-			PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
-				.firstOrNull { it.calleeExpression?.text == "Throws" }
-				?.valueArguments?.forEach {
-					(it.getArgumentExpression() as? KtClassLiteralExpression)?.let {
-						PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
-							append(THROWS, pair)
-							append(it)
-							appendLF()
-						}
+			PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java).firstOrNull {
+				it.calleeExpression?.text == "Throws"
+			}?.run {
+				valueArguments.mapNotNull {
+					it.getArgumentExpression() as? KtClassLiteralExpression
+				}.forEach {
+					PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
+						appendDoc(THROWS, pair, it)
 					}
 				}
+			}
 		}
 	}
 
@@ -106,9 +99,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		val pair: Pair<PsiFile, CodeDocumentationAwareCommenter> = contextComment.pair()
 		return buildString {
 			owner.typeParameters.forEach {
-				append(PARAM, pair)
-				append(it.text)
-				appendLF()
+				appendDoc(PARAM, pair, it.text)
 			}
 
 			// order: 1. primary Parameters -> @property
@@ -118,10 +109,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					val param = it.nameIdentifier?.text
 					val type = it.itsType
 					if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-						append(PROPERTY, pair)
 						// add a space before or after is no used
-						append("$param $type")
-						appendLF()
+						appendDoc(PROPERTY, pair, param, " ", type)
 					}
 				}
 			}
@@ -132,10 +121,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					val param = it.nameIdentifier?.text
 					val type = it.itsType
 					if (!param.isNullOrEmpty()) {
-						append(PROPERTY, pair)
 						// add a space before or after is no used
-						append("$param $type")
-						appendLF()
+						appendDoc(PROPERTY, pair, param, " ", type)
 					}
 				}
 
@@ -143,7 +130,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			if (owner.hasPrimaryConstructor() && isAlwaysShowConstructor) {
 				// empty class
 				if (!owner.getPrimaryConstructorParameterList()?.parameters.isNullOrEmpty()) {
-					appendConstructor(pair)
+					appendDoc(CONSTRUCTOR, pair)
 				}
 			}
 		}
@@ -158,15 +145,13 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				val param = it.nameIdentifier?.text
 				val type = it.itsType
 				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-					append(PARAM, pair)
-					append("$param $type")
-					appendLF()
+					appendDoc(PARAM, pair, param, " ", type)
 				}
 			}
 
 			// @constructor
 			if (isAlwaysShowConstructor) {
-				appendConstructor(pair)
+				appendDoc(CONSTRUCTOR, pair)
 			}
 		}
 	}
@@ -174,18 +159,13 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun PsiComment.pair() =
 		Pair(containingFile, LanguageCommenters.INSTANCE.forLanguage(language) as CodeDocumentationAwareCommenter)
 
-	private fun StringBuilder.append(str: String, arg: Pair<PsiFile, CodeDocumentationAwareCommenter>) =
-		append(CodeDocumentationUtil.createDocCommentLine(str, arg.first, arg.second))
-
-	private fun StringBuilder.appendLF() = append(LF)
-	private fun StringBuilder.appendLF(vararg strs: String): java.lang.StringBuilder? {
-		for (s in strs) append(s)
-		return append(LF)
-	}
-
-	private fun StringBuilder.appendConstructor(pair: Pair<PsiFile, CodeDocumentationAwareCommenter>) {
-		append(CONSTRUCTOR, pair)
+	private fun StringBuilder.appendDoc(
+		lineData: String, arg: Pair<PsiFile, CodeDocumentationAwareCommenter>, vararg strs: String?
+	) {
+		append(CodeDocumentationUtil.createDocCommentLine(lineData, arg.first, arg.second))
+		for (s in strs) {
+			append(s)
+		}
 		append(LF)
 	}
-
 }
