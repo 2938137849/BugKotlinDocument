@@ -1,10 +1,8 @@
 <idea-plugin>
-	<id>cn.wjdghd.unique.plugin.id</id>
+	<id>cn.bin.unique.plugin.id</id>
 	<name>BugKotlinDocument</name>
-	<vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument">zxj5470</vendor>
-	<depends optional="true">org.jetbrains.kotlin</depends>
-	<depends optional="true">org.jetbrains.kotlin.native.clion</depends>
-	<depends optional="true">org.jetbrains.kotlin.native.appcode</depends>
+	<vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
+	<depends optional="true" config-file="">org.jetbrains.kotlin</depends>
 	<depends>com.intellij.modules.lang</depends>
 
 	<description>To generate Kotlin document comment in Kotlin File</description>
@@ -13,18 +11,18 @@
 		Disable it on editor | BugKotlinDocument.
 	</change-notes>
 
-	<idea-version since-build="139"/>
+	<idea-version since-build="213"/>
 
 	<extensions defaultExtensionNs="com.intellij">
 		<lang.documentationProvider language="kotlin"
-											 implementationClass="com.github.zxj5470.bugktdoc.BugKtDocumentationProvider"/>
-		<typedHandler implementation="com.github.zxj5470.bugktdoc.BugKtDocEditorTypedHandler"/>
+			implementationClass="com.github.bin.bugktdoc.BugKtDocumentationProvider"/>
+		<typedHandler implementation="com.github.bin.bugktdoc.BugKtDocEditorTypedHandler"/>
 		<applicationConfigurable groupId="editor"
-										 id="com.github.zxj5470.bugktdoc.applicationConfigurable"
-										 instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"/>
+			id="com.github.zxj5470.bugktdoc.applicationConfigurable"
+			instance="com.github.bin.bugktdoc.options.BugKtDocConfigureFormImpl"/>
 		<applicationService
-			serviceInterface="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings"
-			serviceImplementation="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
+			serviceInterface="com.github.bin.bugktdoc.options.BugKtDocGlobalSettings"
+			serviceImplementation="com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
 
 	</extensions>
 </idea-plugin>

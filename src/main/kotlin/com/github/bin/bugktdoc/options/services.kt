@@ -1,9 +1,8 @@
-package com.github.zxj5470.bugktdoc.options
+package com.github.bin.bugktdoc.options
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import com.intellij.openapi.components.StorageScheme
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 /**
@@ -16,7 +15,7 @@ data class BugKtDocSettings(
 	var theFirstTile: Boolean = true,
 	var alwaysShowUnitReturnType: Boolean = false,
 	var alwaysShowClassFieldProperty: Boolean = true,
-	var alwaysShowConstructor: Boolean = true
+	var alwaysShowConstructor: Boolean = true,
 )
 
 interface BugKtDocGlobalSettings {
@@ -28,7 +27,8 @@ interface BugKtDocGlobalSettings {
  */
 @State(
 	name = "BugKtDocConfig",
-	storages = [Storage(file = "BugKtDocConfig.xml", scheme = StorageScheme.DIRECTORY_BASED)])
+	storages = [Storage(value = "BugKtDocConfig.xml")]
+)
 class BugKtDocGlobalSettingsImpl :
 	BugKtDocGlobalSettings, PersistentStateComponent<BugKtDocSettings> {
 

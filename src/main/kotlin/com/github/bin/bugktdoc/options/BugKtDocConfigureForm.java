@@ -1,7 +1,6 @@
-package com.github.zxj5470.bugktdoc.options;
+package com.github.bin.bugktdoc.options;
 
 import com.intellij.openapi.options.Configurable;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 

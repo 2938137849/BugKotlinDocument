@@ -1,7 +1,7 @@
-package com.github.zxj5470.bugktdoc.options
+package com.github.bin.bugktdoc.options
 
-import com.github.zxj5470.bugktdoc.BugKtDocBundle
-import com.github.zxj5470.bugktdoc.globalSettings
+import com.github.bin.bugktdoc.BugKtDocBundle
+import com.github.bin.bugktdoc.globalSettings
 import javax.swing.JCheckBox
 import javax.swing.JPanel
 

@@ -1,6 +1,6 @@
-package com.github.zxj5470.bugktdoc
+package com.github.bin.bugktdoc
 
-import com.github.zxj5470.bugktdoc.constants.*
+import com.github.bin.bugktdoc.constants.*
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.ide.util.PackageUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
@@ -11,7 +11,6 @@ import com.intellij.lang.java.JavaDocumentationProvider.getPackageInfoComment
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.containers.isNullOrEmpty
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
 import org.jetbrains.kotlin.psi.*
 
@@ -50,7 +49,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
-		if (!isKotlinNative) (contextElement as? KDocImpl)?.getOwner()?.docComment else contextElement
+		(contextElement as? KDocImpl)?.owner?.docComment ?: contextElement
 
 	private fun docKtNamedFunction(owner: KtNamedFunction, contextComment: PsiComment): String {
 		val pair: Pair<PsiFile, CodeDocumentationAwareCommenter> = contextComment.pair()
@@ -141,7 +140,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		return buildString {
 
 			// @param
-			owner.getValueParameters().forEach {
+			owner.valueParameters.forEach {
 				val param = it.nameIdentifier?.text
 				val type = it.itsType
 				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
@@ -160,7 +159,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		Pair(containingFile, LanguageCommenters.INSTANCE.forLanguage(language) as CodeDocumentationAwareCommenter)
 
 	private fun StringBuilder.appendDoc(
-		lineData: String, arg: Pair<PsiFile, CodeDocumentationAwareCommenter>, vararg strs: String?
+		lineData: String, arg: Pair<PsiFile, CodeDocumentationAwareCommenter>, vararg strs: String?,
 	) {
 		append(CodeDocumentationUtil.createDocCommentLine(lineData, arg.first, arg.second))
 		for (s in strs) {

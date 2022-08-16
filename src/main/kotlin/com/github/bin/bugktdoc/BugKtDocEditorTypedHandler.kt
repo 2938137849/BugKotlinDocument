@@ -1,6 +1,6 @@
-package com.github.zxj5470.bugktdoc
+package com.github.bin.bugktdoc
 
-import com.github.zxj5470.bugktdoc.util.getCurrentLineToCurrentChar
+import com.github.bin.bugktdoc.util.getCurrentLineToCurrentChar
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -15,7 +15,7 @@ class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 		if (file.language.toString() != "Kotlin") return super.charTyped(c, project, editor, file)
 
 		if (isTheFirstTime && c == '*' && getCurrentLineToCurrentChar(editor).endsWith("/**")) {
-			Notifications.Bus.notify(Notification("com.github.zxj5470.bugktdoc.notification",
+			Notifications.Bus.notify(Notification("com.github.bin.bugktdoc",
 				BugKtDocBundle.message("bugktdoc.notation.title"),
 				BugKtDocBundle.message("bugktdoc.notation.content"),
 				NotificationType.INFORMATION))

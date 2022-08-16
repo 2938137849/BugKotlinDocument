@@ -1,9 +1,8 @@
-package com.github.zxj5470.bugktdoc
+package com.github.bin.bugktdoc
 
-import com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings
-import com.intellij.CommonBundle
-import com.intellij.openapi.components.ServiceManager
-import com.intellij.util.PlatformUtils
+import com.github.bin.bugktdoc.options.BugKtDocGlobalSettings
+import com.intellij.AbstractBundle
+import com.intellij.openapi.application.ApplicationManager
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
@@ -11,7 +10,7 @@ import org.jetbrains.kotlin.psi.KtCallableDeclaration
 import java.util.*
 
 val globalSettings
-	get() = ServiceManager.getService(BugKtDocGlobalSettings::class.java).settings
+	get() = ApplicationManager.getApplication().getService(BugKtDocGlobalSettings::class.java).settings
 
 val isTheFirstTime
 	get() = globalSettings.theFirstTile
@@ -28,21 +27,14 @@ val isAlwaysShowClassFieldProperty
 val isAlwaysShowConstructor
 	get() = globalSettings.alwaysShowConstructor
 
-/**
- * @ref https://github.com/ice1000/julia-intellij/blob/master/src/org/ice1000/julia/lang/julia-infos.kt
- * class [JuliaBundle]
- */
 object BugKtDocBundle {
 	@NonNls
 	private const val BUNDLE = "BugKtDocBundle"
 	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
+
 	@JvmStatic
-	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String) =
-		CommonBundle.message(bundle, key)
+	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String) = AbstractBundle.message(bundle, key)
 }
 
 inline val KtCallableDeclaration.itsType
 	get() = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).unwrap().toString()
-
-val isKotlinNative
-	get() = PlatformUtils.isAppCode() || PlatformUtils.isCLion()
