@@ -13,7 +13,7 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="use BugKotlinDocument"/>
+          <text resource-bundle="BugKtDocBundle" key="bugktdoc.options.use"/>
         </properties>
       </component>
       <vspacer id="d93aa">
@@ -26,7 +26,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="generate @return Unit by default"/>
+          <text resource-bundle="BugKtDocBundle" key="bugktdoc.options.default.unit"/>
         </properties>
       </component>
       <component id="33824" class="javax.swing.JCheckBox" binding="showClassFieldProperty">
@@ -34,7 +34,7 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="generate @property for class fields"/>
+          <text resource-bundle="BugKtDocBundle" key="bugktdoc.options.default.property"/>
         </properties>
       </component>
       <component id="7b5eb" class="javax.swing.JCheckBox" binding="showConstructor">
@@ -42,7 +42,7 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="generate @constructor by default"/>
+          <text resource-bundle="BugKtDocBundle" key="bugktdoc.options.default.constructor"/>
         </properties>
       </component>
     </children>
