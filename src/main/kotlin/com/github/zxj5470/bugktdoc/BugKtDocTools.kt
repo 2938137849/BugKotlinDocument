@@ -37,8 +37,8 @@ object BugKtDocBundle {
 	private const val BUNDLE = "BugKtDocBundle"
 	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 	@JvmStatic
-	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
-		CommonBundle.message(bundle, key, *params)
+	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String) =
+		CommonBundle.message(bundle, key)
 }
 
 inline val KtCallableDeclaration.itsType

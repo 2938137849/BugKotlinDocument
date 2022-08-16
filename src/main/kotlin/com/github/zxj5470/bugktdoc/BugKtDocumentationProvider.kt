@@ -58,10 +58,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			// @receiver
 			owner.receiverTypeReference?.let {
 				append(RECEIVER, pair)
-				append("[")
-				append(it.text)
-				append("]")
-				append(LF)
+				appendLF(it.text)
 			}
 
 			// @param
@@ -70,26 +67,22 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				val type = it.itsType
 				append(PARAM, pair)
 				// add a space before `param` and after is no used
-				append("$param [$type]")
-				append(LF)
+				append("$param $type")
+				appendLF()
 			}
 
 			// @return
 			if (owner.hasDeclaredReturnType()) {
 				append(RETURN, pair)
-				append("[")
 				append(owner.typeReference?.typeElement?.text)
-				append("]")
-				append(LF)
+				appendLF()
 			}
 			else {
 				owner.itsType.let {
 					if (isAlwaysShowUnitReturnType || it != "Unit") {
 						append(RETURN, pair)
-						append("[")
 						append(it)
-						append("]")
-						append(LF)
+						appendLF()
 					}
 				}
 			}
@@ -101,10 +94,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					(it.getArgumentExpression() as? KtClassLiteralExpression)?.let {
 						PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
 							append(THROWS, pair)
-							append("[")
 							append(it)
-							append("]")
-							append(LF)
+							appendLF()
 						}
 					}
 				}
@@ -116,10 +107,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		return buildString {
 			owner.typeParameters.forEach {
 				append(PARAM, pair)
-				append("[")
 				append(it.text)
-				append("]")
-				append(LF)
+				appendLF()
 			}
 
 			// order: 1. primary Parameters -> @property
@@ -131,8 +120,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					if (!param.isNullOrEmpty() && type.isNotEmpty()) {
 						append(PROPERTY, pair)
 						// add a space before or after is no used
-						append("$param [$type]")
-						append(LF)
+						append("$param $type")
+						appendLF()
 					}
 				}
 			}
@@ -145,8 +134,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					if (!param.isNullOrEmpty()) {
 						append(PROPERTY, pair)
 						// add a space before or after is no used
-						append("$param [$type]")
-						append(LF)
+						append("$param $type")
+						appendLF()
 					}
 				}
 
@@ -154,8 +143,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			if (owner.hasPrimaryConstructor() && isAlwaysShowConstructor) {
 				// empty class
 				if (!owner.getPrimaryConstructorParameterList()?.parameters.isNullOrEmpty()) {
-					append(CONSTRUCTOR, pair)
-					append(LF)
+					appendConstructor(pair)
 				}
 			}
 		}
@@ -171,15 +159,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				val type = it.itsType
 				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
 					append(PARAM, pair)
-					append("$param [$type]")
-					append(LF)
+					append("$param $type")
+					appendLF()
 				}
 			}
 
 			// @constructor
 			if (isAlwaysShowConstructor) {
-				append(CONSTRUCTOR, pair)
-				append(LF)
+				appendConstructor(pair)
 			}
 		}
 	}
@@ -189,4 +176,16 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 	private fun StringBuilder.append(str: String, arg: Pair<PsiFile, CodeDocumentationAwareCommenter>) =
 		append(CodeDocumentationUtil.createDocCommentLine(str, arg.first, arg.second))
+
+	private fun StringBuilder.appendLF() = append(LF)
+	private fun StringBuilder.appendLF(vararg strs: String): java.lang.StringBuilder? {
+		for (s in strs) append(s)
+		return append(LF)
+	}
+
+	private fun StringBuilder.appendConstructor(pair: Pair<PsiFile, CodeDocumentationAwareCommenter>) {
+		append(CONSTRUCTOR, pair)
+		append(LF)
+	}
+
 }
