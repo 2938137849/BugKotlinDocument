@@ -18,7 +18,7 @@
 			implementationClass="com.github.bin.bugktdoc.BugKtDocumentationProvider"/>
 		<typedHandler implementation="com.github.bin.bugktdoc.BugKtDocEditorTypedHandler"/>
 		<applicationConfigurable groupId="editor"
-			id="com.github.zxj5470.bugktdoc.applicationConfigurable"
+			id="com.github.bin.bugktdoc.applicationConfigurable"
 			instance="com.github.bin.bugktdoc.options.BugKtDocConfigureFormImpl"/>
 		<applicationService
 			serviceInterface="com.github.bin.bugktdoc.options.BugKtDocGlobalSettings"

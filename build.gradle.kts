@@ -1,6 +1,6 @@
 plugins {
 	id("java")
-	id("org.jetbrains.kotlin.jvm") version "1.6.20"
+	id("org.jetbrains.kotlin.jvm") version "1.7.10"
 	id("org.jetbrains.intellij") version "1.8.0"
 }
 
@@ -11,7 +11,10 @@ repositories {
 	mavenCentral()
 	maven("https://jitpack.io")
 }
-
+java {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+}
 dependencies {
 	compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.20")
 	testImplementation("junit:junit:4.13.2")
@@ -26,18 +29,18 @@ intellij {
 }
 
 tasks {
+	buildSearchableOptions {
+		enabled = false
+	}
 	patchPluginXml {
+		version.set("${project.version}")
 		pluginDescription.set(file("description.html").readText())
 		changeNotes.set(file("changeNotes.html").readText())
 	}
-
-	// Set the JVM compatibility versions
-	withType<JavaCompile> {
-		sourceCompatibility = "11"
-		targetCompatibility = "11"
-	}
-	withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+	compileKotlin {
 		kotlinOptions.jvmTarget = "11"
 	}
-
+	compileTestKotlin {
+		kotlinOptions.jvmTarget = "11"
+	}
 }
