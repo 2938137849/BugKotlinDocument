@@ -3,8 +3,7 @@
 	<name>BugKotlinDocument By Bin</name>
 	<vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
 
-	<depends optional="true">org.jetbrains.kotlin</depends>
-	<depends optional="true">org.jetbrains.kotlin.native.appcode</depends>
+	<depends>org.jetbrains.kotlin</depends>
 
 	<depends>com.intellij.modules.lang</depends>
 
