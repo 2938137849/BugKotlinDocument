@@ -1,15 +1,24 @@
 <idea-plugin>
-	<id>cn.bin.unique.plugin.id</id>
+	<id>cn.wjdghd.unique.plugin.id</id>
 	<name>BugKotlinDocument</name>
 	<vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
 	<depends optional="true" config-file="">org.jetbrains.kotlin</depends>
 	<depends>com.intellij.modules.lang</depends>
 
-	<description>To generate Kotlin document comment in Kotlin File</description>
-	<change-notes>
-		v0.2.0: Only need to press Enter Key after /** just like in Java !
-		Disable it on editor | BugKotlinDocument.
-	</change-notes>
+	<description><![CDATA[
+		<br/>
+		<h1>Usage</h1>
+		<br/>
+		<h2>
+			Just press <kbd>Enter</kbd> after <code>/**</code>
+		</h2>
+		<br/>
+		<img src="https://raw.githubusercontent.com/zxj5470/BugKotlinDocument/master/images/pic02.png" alt=""/>
+		<br/>
+		<h3>Settings in Editor | BugKotlinDocument </h3>
+		]]>
+	</description>
+	<change-notes>Disable it on editor | BugKotlinDocument.</change-notes>
 
 	<idea-version since-build="213"/>
 

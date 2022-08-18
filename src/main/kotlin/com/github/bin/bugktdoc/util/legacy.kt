@@ -12,12 +12,11 @@ import com.intellij.openapi.util.TextRange
 fun getCurrentLineToCurrentChar(editor: Editor): String =
 	editor.run {
 		val offset = this.caretModel.offset
-		lineNumber(0).run {
-			return if (this > document.lineCount) ""
-			else document.let {
-				val lineStartOffset = it.getLineStartOffset(this)
-				it.getText(TextRange(lineStartOffset, offset))
-			}
+		val number = lineNumber(0)
+		return if (number > document.lineCount) ""
+		else document.let {
+			val lineStartOffset = it.getLineStartOffset(number)
+			it.getText(TextRange(lineStartOffset, offset))
 		}
 	}
 

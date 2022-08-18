@@ -1,7 +1,7 @@
 plugins {
 	id("java")
-	id("org.jetbrains.kotlin.jvm") version "1.7.10"
 	id("org.jetbrains.intellij") version "1.8.0"
+	id("org.jetbrains.kotlin.jvm") version "1.7.10"
 }
 
 group = "com.github.bin"
@@ -13,17 +13,16 @@ repositories {
 }
 java {
 	sourceCompatibility = JavaVersion.VERSION_11
-	targetCompatibility = JavaVersion.VERSION_11
 }
 dependencies {
-	compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.20")
+	// implementation(kotlin("stdlib"))
 	testImplementation("junit:junit:4.13.2")
 }
 
 intellij {
 	type.set("IC") // Target IDE Platform
 	updateSinceUntilBuild.set(false)
-	version.set("2022.2")
+	version.set("2021.3.3")
 
 	plugins.set(listOf("Kotlin"))
 }
@@ -34,8 +33,7 @@ tasks {
 	}
 	patchPluginXml {
 		version.set("${project.version}")
-		pluginDescription.set(file("description.html").readText())
-		changeNotes.set(file("changeNotes.html").readText())
+		// changeNotes.set(file("changeNotes.html").readText())
 	}
 	compileKotlin {
 		kotlinOptions.jvmTarget = "11"
