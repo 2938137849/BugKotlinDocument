@@ -1,4 +1,4 @@
-package com.github.zxj5470.bugktdoc.samples
+package com.github.bin.bugktdoc.samples
 
 /**
  *

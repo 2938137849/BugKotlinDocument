@@ -1,39 +1,22 @@
-package com.github.zxj5470.bugktdoc.options
+package com.github.bin.bugktdoc.options
 
-import com.github.zxj5470.bugktdoc.BugKtDocBundle
-import com.github.zxj5470.bugktdoc.globalSettings
-import javax.swing.JCheckBox
+import com.github.bin.bugktdoc.BugKtDocBundle
+import com.github.bin.bugktdoc.globalSettings
+import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
 
 /**
  * @author zxj5470
  * @date 2018/4/2
  */
-class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
-	private val thisPanel: JPanel
-		get() {
-			// what the hell it is in CLion?
-			// mainPanel is null in CLion.
-			if (mainPanel == null) {
-				mainPanel = JPanel()
-				useBugKtDoc = JCheckBox(BugKtDocBundle.message("bugktdoc.options.use"))
-					.apply { mainPanel.add(this) }
-				showUnitTypeDefault = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.unit"))
-					.apply { mainPanel.add(this) }
-				showClassFieldProperty = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.property"))
-					.apply { mainPanel.add(this) }
-				showConstructor = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.constructor"))
-					.apply { mainPanel.add(this) }
-			}
-			useBugKtDoc.isSelected = globalSettings.useBugKtDoc
-			showUnitTypeDefault.isSelected = globalSettings.alwaysShowUnitReturnType
-			showClassFieldProperty.isSelected = globalSettings.alwaysShowClassFieldProperty
-			showConstructor.isSelected = globalSettings.alwaysShowConstructor
-			return mainPanel
-		}
+class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
+	private val thisPanel: JPanel = mainPanel
 
 	init {
-		thisPanel
+		useBugKtDoc.isSelected = globalSettings.useBugKtDoc
+		showUnitTypeDefault.isSelected = globalSettings.alwaysShowUnitReturnType
+		showClassFieldProperty.isSelected = globalSettings.alwaysShowClassFieldProperty
+		showConstructor.isSelected = globalSettings.alwaysShowConstructor
 		addSwitchListener()
 		observer()
 	}
@@ -50,7 +33,8 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 				showUnitTypeDefault.isEnabled = true
 				showClassFieldProperty.isEnabled = true
 				showConstructor.isEnabled = true
-			} else {
+			}
+			else {
 				showUnitTypeDefault.isEnabled = false
 				showClassFieldProperty.isEnabled = false
 				showConstructor.isEnabled = false

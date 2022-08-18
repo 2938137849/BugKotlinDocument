@@ -1,6 +1,6 @@
-package com.github.zxj5470.bugktdoc
+package com.github.bin.bugktdoc
 
-import com.github.zxj5470.bugktdoc.constants.*
+import com.github.bin.bugktdoc.constants.*
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.ide.util.PackageUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
@@ -23,13 +23,17 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	/**
 	 *
 	 * @param startPoint PsiElement
-	 * @return Pair<PsiElement, PsiComment>?
+	 * @return Pair<PsiElement, PsiComment>
 	 */
 	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment> {
 		var current = startPoint
 		while (true) {
-			if (current is KDocImpl) return Pair.create(current, current)
-			else if (PackageUtil.isPackageInfoFile(current)) return Pair.create(current, getPackageInfoComment(current))
+			if (current is KDocImpl) {
+				return Pair(current, current)
+			}
+			else if (PackageUtil.isPackageInfoFile(current)) {
+				return Pair(current, getPackageInfoComment(current))
+			}
 			current = current.parent
 		}
 	}

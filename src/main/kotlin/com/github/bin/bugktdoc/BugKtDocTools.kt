@@ -1,6 +1,6 @@
-package com.github.zxj5470.bugktdoc
+package com.github.bin.bugktdoc
 
-import com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings
+import com.github.bin.bugktdoc.options.BugKtDocGlobalSettings
 import com.intellij.AbstractBundle
 import com.intellij.openapi.application.ApplicationManager
 import org.jetbrains.annotations.NonNls

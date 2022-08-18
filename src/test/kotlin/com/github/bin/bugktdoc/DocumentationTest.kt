@@ -1,4 +1,4 @@
-package com.github.zxj5470.bugktdoc
+package com.github.bin.bugktdoc
 
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterAction
 import com.intellij.testFramework.fixtures.BasePlatformTestCase

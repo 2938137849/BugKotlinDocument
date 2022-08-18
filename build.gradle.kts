@@ -8,6 +8,7 @@ group = "com.github.bin"
 version = "0.3.0"
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 	maven("https://jitpack.io")
 }
@@ -33,7 +34,8 @@ tasks {
 	}
 	patchPluginXml {
 		version.set("${project.version}")
-		// changeNotes.set(file("changeNotes.html").readText())
+		pluginDescription.set(file("description.html").readText())
+		changeNotes.set(file("changeNotes.html").readText())
 	}
 	compileKotlin {
 		kotlinOptions.jvmTarget = "11"

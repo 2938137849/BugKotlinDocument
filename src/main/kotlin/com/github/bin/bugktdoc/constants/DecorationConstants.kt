@@ -1,4 +1,4 @@
-package com.github.zxj5470.bugktdoc.constants
+package com.github.bin.bugktdoc.constants
 
 
 /**
