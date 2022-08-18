@@ -14,12 +14,16 @@ class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 		// avoid NoClassDef if no Kotlin plugin
 		if (file.language.toString() != "Kotlin") return super.charTyped(c, project, editor, file)
 
-		if (isTheFirstTime && c == '*' && getCurrentLineToCurrentChar(editor).endsWith("/**")) {
-			Notifications.Bus.notify(Notification("com.github.bin.bugktdoc.notification",
-				BugKtDocBundle.message("bugktdoc.notation.title"),
-				BugKtDocBundle.message("bugktdoc.notation.content"),
-				NotificationType.INFORMATION))
-			globalSettings.theFirstTile = false
+		if (Settings.theFirstTile && c == '*' && getCurrentLineToCurrentChar(editor).endsWith("/**")) {
+			Notifications.Bus.notify(
+				Notification(
+					"com.github.bin.bugktdoc.notification",
+					BugKtDocBundle("bugktdoc.notation.title"),
+					BugKtDocBundle("bugktdoc.notation.content"),
+					NotificationType.INFORMATION
+				)
+			)
+			Settings.theFirstTile = false
 		}
 		return super.charTyped(c, project, editor, file)
 	}

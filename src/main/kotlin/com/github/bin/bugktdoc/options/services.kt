@@ -3,7 +3,6 @@ package com.github.bin.bugktdoc.options
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import com.intellij.util.xmlb.XmlSerializerUtil
 
 /**
  * @author zxj5470
@@ -16,25 +15,22 @@ data class BugKtDocSettings(
 	var alwaysShowUnitReturnType: Boolean = false,
 	var alwaysShowClassFieldProperty: Boolean = true,
 	var alwaysShowConstructor: Boolean = true,
+	var useWrapper: Boolean = false,
 )
 
 interface BugKtDocGlobalSettings {
-	val settings: BugKtDocSettings
+	var settings: BugKtDocSettings
 }
 
 /**
  * @ref julia-intellij
  */
-@State(
-	name = "BugKtDocConfig",
-	storages = [Storage(value = "BugKtDocConfig.xml")]
-)
-class BugKtDocGlobalSettingsImpl :
-	BugKtDocGlobalSettings, PersistentStateComponent<BugKtDocSettings> {
+@State(name = "BugKtDocConfig", storages = [Storage(value = "BugKtDocConfig.xml")])
+class BugKtDocGlobalSettingsImpl : BugKtDocGlobalSettings, PersistentStateComponent<BugKtDocSettings> {
 
-	override val settings = BugKtDocSettings(true)
-	override fun getState(): BugKtDocSettings? = XmlSerializerUtil.createCopy(settings)
+	override var settings = BugKtDocSettings()
+	override fun getState(): BugKtDocSettings = settings
 	override fun loadState(state: BugKtDocSettings) {
-		XmlSerializerUtil.copyBean(state, settings)
+		settings = state
 	}
 }
