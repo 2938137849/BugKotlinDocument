@@ -1,6 +1,6 @@
-package com.github.bin.bugktdoc
+package com.github.zxj5470.bugktdoc
 
-import com.github.bin.bugktdoc.constants.*
+import com.github.zxj5470.bugktdoc.constants.*
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.ide.util.PackageUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter

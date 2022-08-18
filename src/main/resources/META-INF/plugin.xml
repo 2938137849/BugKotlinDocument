@@ -24,14 +24,14 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<lang.documentationProvider language="kotlin"
-			implementationClass="com.github.bin.bugktdoc.BugKtDocumentationProvider"/>
-		<typedHandler implementation="com.github.bin.bugktdoc.BugKtDocEditorTypedHandler"/>
+			implementationClass="com.github.zxj5470.bugktdoc.BugKtDocumentationProvider"/>
+		<typedHandler implementation="com.github.zxj5470.bugktdoc.BugKtDocEditorTypedHandler"/>
 		<applicationConfigurable groupId="editor"
-			id="com.github.bin.bugktdoc.applicationConfigurable"
-			instance="com.github.bin.bugktdoc.options.BugKtDocConfigureFormImpl"/>
+			id="com.github.wjdghd.bugktdoc.applicationConfigurable"
+			instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"/>
 		<applicationService
-			serviceInterface="com.github.bin.bugktdoc.options.BugKtDocGlobalSettings"
-			serviceImplementation="com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
+			serviceInterface="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings"
+			serviceImplementation="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
 
 	</extensions>
 </idea-plugin>

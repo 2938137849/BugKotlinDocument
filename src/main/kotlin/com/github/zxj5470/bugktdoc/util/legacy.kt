@@ -1,4 +1,4 @@
-package com.github.bin.bugktdoc.util
+package com.github.zxj5470.bugktdoc.util
 
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange

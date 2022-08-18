@@ -1,20 +1,16 @@
-package com.github.bin.bugktdoc.samples
+package com.github.zxj5470.bugktdoc.samples
 
 
 /**
- * @author zxj5470
- * @date 2018/4/9
+ * disable both fields `@property` and `@constructor`
  */
 
 /**
  *
  * @param T
  * @property strings Array<out String>
- * @property aInt Int
- * @property bInt Int
  */
-class ADisable<T>(t: String, private vararg val strings: String) {
-
+class AFieldDisabled<T>(t: String, private vararg val strings: String) {
 	/**
 	 *
 	 * @param name String

@@ -1,4 +1,4 @@
-package com.github.bin.bugktdoc.options
+package com.github.zxj5470.bugktdoc.options
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State

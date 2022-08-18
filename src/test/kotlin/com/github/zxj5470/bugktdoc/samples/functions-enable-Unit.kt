@@ -1,4 +1,4 @@
-package com.github.bin.bugktdoc.samples
+package com.github.zxj5470.bugktdoc.samples
 
 /**
  * disable show `@return Unit` by default.
