@@ -55,7 +55,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun docKtNamedFunction(owner: KtNamedFunction, pair: PPC): String = buildString {
 		// @receiver
 		owner.receiverTypeReference?.let {
-			appendDoc(RECEIVER, pair, it.text)
+			appendDoc(RECEIVER, pair, it.text.itsType)
 		}
 
 		// @param
@@ -86,7 +86,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				it.getArgumentExpression() as? KtClassLiteralExpression
 			}.forEach {
 				PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
-					appendDoc(THROWS, pair, it)
+					appendDoc(THROWS, pair, it.itsType)
 				}
 			}
 		}
@@ -94,7 +94,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 	private fun docKtClass(owner: KtClass, pair: PPC): String = buildString {
 		owner.typeParameters.forEach {
-			appendDoc(PARAM, pair, it.text)
+			appendDoc(PARAM, pair, it.text.itsType)
 		}
 
 		// order: 1. primary Parameters -> @property
@@ -157,29 +157,28 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		append(LF)
 	}
 
-	private inline val KtTypeReference?.itsType: String
+	private val String.itsType: String
+		get() {
+			return if (!Settings.useWrapper) this
+			else if (!endsWith("?")) "[$this]"
+			else "[${substring(0, length - 1)}]?"
+		}
+
+	private val KtTypeReference?.itsType: String
 		get() {
 			this ?: return ""
 			val element = typeElement ?: return ""
-			return if (Settings.useWrapper) {
-				if (element is KtNullableType) {
-					"[${element.innerType?.text}]?"
-				}
-				else "[${element.text}]"
-			}
-			else element.text
+			return if (!Settings.useWrapper) element.text
+			else if (element !is KtNullableType) "[${element.text}]"
+			else "[${element.innerType?.text}]?"
 		}
 
-	private inline val KtCallableDeclaration.itsType: String
+	private val KtCallableDeclaration.itsType: String
 		get() {
 			val type = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this)
-			return if (Settings.useWrapper) {
-				if (type.isMarkedNullable) {
-					"[${type.unwrap()}]?"
-				}
-				else "[${type.unwrap()}]?"
-			}
-			else type.unwrap().toString()
+			return if (!Settings.useWrapper) type.unwrap().toString()
+			else if (!type.isMarkedNullable) "[${type.unwrap()}]"
+			else "[${type.unwrap()}]?"
 		}
 
 }
