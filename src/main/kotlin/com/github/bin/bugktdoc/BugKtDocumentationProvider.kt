@@ -191,7 +191,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		get() = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).itsType
 
 	private val TypeProjection.itsType: String
-		get() = if (!Settings.useWrapper) type.toString()
+		get() = if (!Settings.useWrapper) type.unwrap().toString()
 		else if (isStarProjection) "*"
 		else buildString {
 			if (projectionKind != Variance.INVARIANT) {
@@ -201,7 +201,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 
 	private val KotlinType.itsType: String
-		get() = if (!Settings.useWrapper) toString()
+		get() = if (!Settings.useWrapper) unwrap().toString()
 		else buildString {
 			append("[", constructor.toString(), "]")
 			if (arguments.isNotEmpty()) {
