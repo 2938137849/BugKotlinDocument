@@ -6,21 +6,20 @@ package com.github.bin.bugktdoc.samples
 
 /**
  *
- * @param i Int
- * @param j Int
- * @return Unit
+ * @param strings [Array]<*>?
+ * @param map [Map]<out [Any]?, [String]?>
+ * @return [Map]<out [Any]?, [String]?>?
  */
-fun twoParamUnit(i: Int, j: Int) {
-
+fun twoParamUnit(strings: Array<*>?,map: Map<out Any?,String?>): Map<out Any?,String?>? {
+    return null
 }
 
 
 /**
  *
- * @param i Int
- * @param strings String
- * @return Unit
+ * @param i [Int]
+ * @param strings [Array<out String>]
  */
-fun paramsWithVarargU(i: Int, vararg strings: String) {
+fun paramsWithVarargU(i: Int, vararg strings: String?) {
 
 }

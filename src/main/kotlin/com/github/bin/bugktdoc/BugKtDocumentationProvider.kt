@@ -13,7 +13,11 @@ import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
+import org.jetbrains.kotlin.nj2k.postProcessing.type
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.types.KotlinType
+import org.jetbrains.kotlin.types.TypeProjection
+import org.jetbrains.kotlin.types.Variance
 
 typealias PPC = Pair<PsiFile, CodeDocumentationAwareCommenter>
 
@@ -39,7 +43,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		?: this.parent.takeIf { it is KtFunction || it is KtClass }
 
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String {
-		if (!Settings.useBugKtDoc || contextComment == null) return ""
+		if (!Settings.useBugKtDoc || contextComment === null) return ""
 
 		return when (val owner = contextComment.getOwner()) {
 			is KtNamedFunction -> docKtNamedFunction(owner, contextComment.pair())
@@ -55,11 +59,11 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun docKtNamedFunction(owner: KtNamedFunction, pair: PPC): String = buildString {
 		// @receiver
 		owner.receiverTypeReference?.let {
-			appendDoc(RECEIVER, pair, it.text.itsType)
+			appendDoc(RECEIVER, pair, it.itsType)
 		}
 
 		// @param
-		owner.valueParameters.forEach {
+		for (it in owner.valueParameters) {
 			val param = it.nameIdentifier?.text ?: ""
 			val type = it.itsType
 			// add a space before `param` and after is no used
@@ -68,23 +72,26 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 		// @return
 		if (owner.hasDeclaredReturnType()) {
-			appendDoc(RETURN, pair, owner.typeReference.itsType)
+			val type = owner.type()
+			if (type !== null)
+				appendDoc(RETURN, pair, type.itsType)
+			else
+				appendDoc(RETURN, pair, owner.typeReference.itsType)
 		}
-		else {
-			owner.itsType.let {
-				if (Settings.alwaysShowUnitReturnType || it != "Unit" && it != "[Unit]") {
-					appendDoc(RETURN, pair, it)
-				}
-			}
+		else owner.itsType.let {
+			if (!Settings.alwaysShowUnitReturnType)
+				if (it.startsWith("Unit") || it.startsWith("[Unit]"))
+					return@let
+			appendDoc(RETURN, pair, it)
 		}
 
 		// @throws
 		PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java).firstOrNull {
 			it.calleeExpression?.text == "Throws"
 		}?.run {
-			valueArguments.mapNotNull {
+			for (it in valueArguments.mapNotNull {
 				it.getArgumentExpression() as? KtClassLiteralExpression
-			}.forEach {
+			}) {
 				PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
 					appendDoc(THROWS, pair, it.itsType)
 				}
@@ -93,12 +100,12 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	private fun docKtClass(owner: KtClass, pair: PPC): String = buildString {
-		owner.typeParameters.forEach {
-			appendDoc(PARAM, pair, it.text.itsType)
+		for (it in owner.typeParameters) {
+			appendDoc(PARAM, pair, it.itsType)
 		}
 
 		// order: 1. primary Parameters -> @property
-		owner.primaryConstructorParameters.forEach {
+		for (it in owner.primaryConstructorParameters) {
 			// is property
 			if (it.hasValOrVar()) {
 				val param = it.nameIdentifier?.text
@@ -112,7 +119,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 		// order: 2. class fields -> @property
 		if (Settings.alwaysShowClassFieldProperty)
-			owner.getProperties().forEach {
+			for (it in owner.getProperties()) {
 				val param = it.nameIdentifier?.text
 				val type = it.itsType
 				if (!param.isNullOrEmpty()) {
@@ -132,7 +139,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 	private fun docKtConstructor(owner: KtConstructor<*>, pair: PPC): String = buildString {
 		// @param
-		owner.valueParameters.forEach {
+		for (it in owner.valueParameters) {
 			val param = it.nameIdentifier?.text
 			val type = it.itsType
 			if (!param.isNullOrEmpty() && type.isNotEmpty()) {
@@ -157,6 +164,9 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		append(LF)
 	}
 
+	/**
+	 * 没法拿到任何类型的终极办法
+	 */
 	private val String.itsType: String
 		get() {
 			return if (!Settings.useWrapper) this
@@ -173,12 +183,39 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			else "[${element.innerType?.text}]?"
 		}
 
+	private val KtTypeParameter.itsType: String
+		get() = if (!Settings.useWrapper) text
+		else "[${name}]"
+
 	private val KtCallableDeclaration.itsType: String
-		get() {
-			val type = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this)
-			return if (!Settings.useWrapper) type.unwrap().toString()
-			else if (!type.isMarkedNullable) "[${type.unwrap()}]"
-			else "[${type.unwrap()}]?"
+		get() = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).itsType
+
+	private val TypeProjection.itsType: String
+		get() = if (!Settings.useWrapper) type.toString()
+		else if (isStarProjection) "*"
+		else buildString {
+			if (projectionKind != Variance.INVARIANT) {
+				append(projectionKind.label, " ")
+			}
+			append(type.itsType)
+		}
+
+	private val KotlinType.itsType: String
+		get() = if (!Settings.useWrapper) toString()
+		else buildString {
+			append("[", constructor.toString(), "]")
+			if (arguments.isNotEmpty()) {
+				append("<")
+				val iterator = arguments.iterator()
+				append(iterator.next().itsType)
+				for (next in iterator) {
+					append(", ", next.itsType)
+				}
+				append(">")
+			}
+			if (isMarkedNullable) {
+				append("?")
+			}
 		}
 
 }
