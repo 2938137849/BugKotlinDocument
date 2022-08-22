@@ -1,5 +1,6 @@
 package com.github.bin.bugktdoc.util
 
+import org.jetbrains.kotlin.builtins.StandardNames
 import org.jetbrains.kotlin.builtins.isBuiltinExtensionFunctionalType
 import org.jetbrains.kotlin.builtins.isBuiltinFunctionalType
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
@@ -40,6 +41,9 @@ val KotlinType.itsType: String
 		return if (isBuiltinFunctionalType) {
 			buildString {
 				var start = 0
+				// if (isfunction) {
+				//
+				// }
 				if (isBuiltinExtensionFunctionalType) {
 					append(arguments[start++].itsType)
 					append(".")
@@ -54,3 +58,7 @@ val KotlinType.itsType: String
 			toString()
 		}
 	}
+
+private fun KotlinType.hasContext(){
+	this.annotations.findAnnotation(StandardNames.FqNames.contextFunctionTypeParams) != null
+}

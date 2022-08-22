@@ -56,11 +56,11 @@ then enjoy Bugs!!!!
 
 more samples:
 
-[main.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/main.kt)
+[main.kt](src/test/kotlin/com/github/bin/bugktdoc/samples/main.kt)
 
-[functions.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/functions.kt)
+[functions.kt](src/test/kotlin/com/github/bin/bugktdoc/samples/functions.kt)
 
-[constructors.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/constructors.kt)
+[constructors.kt](src/test/kotlin/com/github/bin/bugktdoc/samples/constructors-disable.kt)
 
 # Projects use this plugin.
 - [zxj5470/BugKotlinDocument](https://github.com/zxj5470/BugKotlinDocument)

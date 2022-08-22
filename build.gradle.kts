@@ -23,7 +23,7 @@ dependencies {
 intellij {
 	type.set("IC") // Target IDE Platform
 	updateSinceUntilBuild.set(false)
-	version.set("2021.3.3")
+	version.set("2022.2.1")
 
 	plugins.set(listOf("Kotlin"))
 }
