@@ -15,7 +15,6 @@ data class BugKtDocSettings(
 	var alwaysShowUnitReturnType: Boolean = false,
 	var alwaysShowClassFieldProperty: Boolean = true,
 	var alwaysShowConstructor: Boolean = true,
-	var useWrapper: Boolean = false,
 )
 
 interface BugKtDocGlobalSettings {
@@ -25,7 +24,7 @@ interface BugKtDocGlobalSettings {
 /**
  * @ref julia-intellij
  */
-@State(name = "BugKtDocConfig", storages = [Storage(value = "BugKtDocConfig.xml")])
+@State(name = "BugKtDocConfig_bin", storages = [Storage(value = "BugKtDocConfig_bin.xml")])
 class BugKtDocGlobalSettingsImpl : BugKtDocGlobalSettings, PersistentStateComponent<BugKtDocSettings> {
 
 	override var settings = BugKtDocSettings()

@@ -2,13 +2,10 @@ package com.github.bin.bugktdoc.options
 
 import com.github.bin.bugktdoc.BugKtDocBundle
 import com.github.bin.bugktdoc.Settings
-import com.intellij.ide.ui.UINumericRange
 import com.intellij.openapi.options.Configurable
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import javax.swing.JPanel
-import javax.swing.JTextField
-import javax.swing.JToggleButton
 
 /**
  * @author zxj5470
@@ -23,7 +20,6 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable, ActionL
 		showUnitTypeDefault.isSelected = default.alwaysShowUnitReturnType
 		showClassFieldProperty.isSelected = default.alwaysShowClassFieldProperty
 		showConstructor.isSelected = default.alwaysShowConstructor
-		useWrapper.isSelected = default.useWrapper
 		addSwitchListener()
 		observer()
 	}
@@ -32,7 +28,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable, ActionL
 		useBugKtDoc.addActionListener {
 			observer()
 		}
-		arrayOf(useBugKtDoc, showUnitTypeDefault, showClassFieldProperty, showConstructor, useWrapper).forEach {
+		arrayOf(useBugKtDoc, showUnitTypeDefault, showClassFieldProperty, showConstructor).forEach {
 			it.addActionListener(this)
 		}
 	}
@@ -42,12 +38,11 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable, ActionL
 		default.alwaysShowUnitReturnType = showUnitTypeDefault.isSelected
 		default.alwaysShowClassFieldProperty = showClassFieldProperty.isSelected
 		default.alwaysShowConstructor = showConstructor.isSelected
-		default.useWrapper = useWrapper.isSelected
 	}
 
 	private fun observer() {
 		val selected = useBugKtDoc.isSelected
-		arrayOf(showUnitTypeDefault, showClassFieldProperty, showConstructor, useWrapper).forEach {
+		arrayOf(showUnitTypeDefault, showClassFieldProperty, showConstructor).forEach {
 			it.isEnabled = selected
 		}
 	}
@@ -61,7 +56,6 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable, ActionL
 		default.alwaysShowUnitReturnType = false
 		default.alwaysShowClassFieldProperty = true
 		default.alwaysShowConstructor = true
-		default.useWrapper = false
 		observer()
 	}
 

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "UNUSED_PARAMETER", "MemberVisibilityCanBePrivate")
+
 package com.github.bin.bugktdoc.samples
 
 
@@ -19,9 +21,7 @@ class ADisable<T>(t: String, private vararg val strings: String) {
 	 *
 	 * @param name String
 	 */
-	constructor(name: String) : this(name, "") {
-
-	}
+	constructor(name: String) : this(name, "")
 
 	private val aInt = 0
 	val bInt = 1

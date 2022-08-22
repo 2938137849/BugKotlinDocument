@@ -1,6 +1,7 @@
 package com.github.bin.bugktdoc
 
 import com.github.bin.bugktdoc.constants.*
+import com.github.bin.bugktdoc.util.itsType
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.ide.util.PackageUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
@@ -9,15 +10,13 @@ import com.intellij.lang.documentation.CodeDocumentationProvider
 import com.intellij.lang.documentation.DocumentationProviderEx
 import com.intellij.lang.java.JavaDocumentationProvider.getPackageInfoComment
 import com.intellij.openapi.util.Pair
-import com.intellij.psi.*
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
 import org.jetbrains.kotlin.nj2k.postProcessing.type
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.types.KotlinType
-import org.jetbrains.kotlin.types.TypeProjection
-import org.jetbrains.kotlin.types.Variance
 
 typealias PPC = Pair<PsiFile, CodeDocumentationAwareCommenter>
 
@@ -92,7 +91,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			for (it in valueArguments.mapNotNull {
 				it.getArgumentExpression() as? KtClassLiteralExpression
 			}) {
-				PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
+				PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.let {
 					appendDoc(THROWS, pair, it.itsType)
 				}
 			}
@@ -163,59 +162,5 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 		append(LF)
 	}
-
-	/**
-	 * 没法拿到任何类型的终极办法
-	 */
-	private val String.itsType: String
-		get() {
-			return if (!Settings.useWrapper) this
-			else if (!endsWith("?")) "[$this]"
-			else "[${substring(0, length - 1)}]?"
-		}
-
-	private val KtTypeReference?.itsType: String
-		get() {
-			this ?: return ""
-			val element = typeElement ?: return ""
-			return if (!Settings.useWrapper) element.text
-			else if (element !is KtNullableType) "[${element.text}]"
-			else "[${element.innerType?.text}]?"
-		}
-
-	private val KtTypeParameter.itsType: String
-		get() = if (!Settings.useWrapper) text
-		else "[${name}]"
-
-	private val KtCallableDeclaration.itsType: String
-		get() = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).itsType
-
-	private val TypeProjection.itsType: String
-		get() = if (!Settings.useWrapper) type.unwrap().toString()
-		else if (isStarProjection) "*"
-		else buildString {
-			if (projectionKind != Variance.INVARIANT) {
-				append(projectionKind.label, " ")
-			}
-			append(type.itsType)
-		}
-
-	private val KotlinType.itsType: String
-		get() = if (!Settings.useWrapper) unwrap().toString()
-		else buildString {
-			append("[", constructor.toString(), "]")
-			if (arguments.isNotEmpty()) {
-				append("<")
-				val iterator = arguments.iterator()
-				append(iterator.next().itsType)
-				for (next in iterator) {
-					append(", ", next.itsType)
-				}
-				append(">")
-			}
-			if (isMarkedNullable) {
-				append("?")
-			}
-		}
 
 }

@@ -12,7 +12,8 @@ package com.github.bin.bugktdoc.samples
  * @param block () -> Unit
  * @return () -> Unit
  */
-fun lambda(block: () -> Unit): Function0<Unit> {
+context (String)
+fun contextReceiver(block: () -> Unit): Function0<Unit> {
 	return block
 }
 
@@ -21,7 +22,8 @@ fun lambda(block: () -> Unit): Function0<Unit> {
  * @param block String.() -> Unit
  * @return (String) -> Unit
  */
-fun lambda(block: String.() -> Unit): Function1<String, Unit> {
+context (String)
+fun contextReceiver(block: String.() -> Unit): Function1<String, Unit> {
 	return block
 }
 
@@ -30,7 +32,8 @@ fun lambda(block: String.() -> Unit): Function1<String, Unit> {
  * @param block Pair<String, Int>.() -> Unit
  * @return (Pair<String, Int>) -> Unit
  */
-fun lambda2(block: Pair<String, Int>.() -> Unit): Function1<Pair<String, Int>, Unit> {
+context (String)
+fun contextReceiver2(block: Pair<String, Int>.() -> Unit): Function1<Pair<String, Int>, Unit> {
 	return block
 }
 
@@ -39,6 +42,7 @@ fun lambda2(block: Pair<String, Int>.() -> Unit): Function1<Pair<String, Int>, U
  * @param block (String, Int) -> Unit
  * @return (String, Int) -> Unit
  */
-fun lambda2(block: (String, Int) -> Unit): Function2<String, Int, Unit> {
+context (Pair<String, Int>)
+fun contextReceiver2(block: (String, Int) -> Unit): Function2<String, Int, Unit> {
 	return block
 }

@@ -11,5 +11,4 @@ public class BugKtDocConfigureForm {
 	protected JCheckBox showUnitTypeDefault;
 	protected JCheckBox showClassFieldProperty;
 	protected JCheckBox showConstructor;
-	protected JCheckBox useWrapper;
 }

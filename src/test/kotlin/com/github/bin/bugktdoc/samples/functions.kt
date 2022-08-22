@@ -1,3 +1,5 @@
+@file:Suppress("unused", "UNUSED_PARAMETER")
+
 package com.github.bin.bugktdoc.samples
 
 /**
