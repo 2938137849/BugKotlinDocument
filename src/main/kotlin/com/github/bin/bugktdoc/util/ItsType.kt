@@ -1,8 +1,6 @@
 package com.github.bin.bugktdoc.util
 
-import org.jetbrains.kotlin.builtins.StandardNames
-import org.jetbrains.kotlin.builtins.isBuiltinExtensionFunctionalType
-import org.jetbrains.kotlin.builtins.isBuiltinFunctionalType
+import org.jetbrains.kotlin.builtins.*
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.types.KotlinType
@@ -14,16 +12,27 @@ val KtNameReferenceExpression.itsType: String
 		return text
 	}
 
-val KtTypeReference?.itsType: String
+val KtTypeReference.itsType: String
 	get() {
-		this ?: return ""
-		val element = typeElement ?: return ""
-		return element.text
+		return typeElement?.itsType ?: ""
+	}
+
+val KtTypeElement.itsType: String
+	get() {
+		return text
 	}
 
 val KtTypeParameter.itsType: String
 	get() {
 		return text
+	}
+
+val KtContextReceiver.itsType: String
+	get() {
+		return buildString {
+			labelName()?.let { append(it).append("@ ") }
+			append(typeReference()?.itsType)
+		}
 	}
 
 val KtCallableDeclaration.itsType: String
@@ -33,32 +42,30 @@ val KtCallableDeclaration.itsType: String
 
 val TypeProjection.itsType: String
 	get() {
-		return type.unwrap().toString()
+		return type.itsType
 	}
 
 val KotlinType.itsType: String
 	get() {
-		return if (isBuiltinFunctionalType) {
+		return if (!isBuiltinFunctionalType) {
+			toString()
+		}
+		else {
 			buildString {
-				var start = 0
-				// if (isfunction) {
-				//
-				// }
+				var start = contextFunctionTypeParamsCount()
+				if (start > 0) {
+					arguments.subList(0, start).joinTo(this, ", ", "context(", ")") {
+						it.itsType
+					}
+				}
 				if (isBuiltinExtensionFunctionalType) {
 					append(arguments[start++].itsType)
 					append(".")
 				}
-				arguments
-					.subList(start, arguments.size - 1)
-					.joinTo(this, ", ", "(", ") -> ") { it.itsType }
+				arguments.subList(start, arguments.size - 1).joinTo(this, ", ", "(", ") -> ") {
+					it.itsType
+				}
 				append(arguments.last().itsType)
 			}
 		}
-		else {
-			toString()
-		}
 	}
-
-private fun KotlinType.hasContext(){
-	this.annotations.findAnnotation(StandardNames.FqNames.contextFunctionTypeParams) != null
-}

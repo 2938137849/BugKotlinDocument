@@ -1,18 +1,23 @@
+@file:Suppress("unused")
+
 package com.github.bin.bugktdoc
 
 import kotlin.jvm.Throws
 
 /**
- *
- * @param int Int
- * @param block [@kotlin.ExtensionFunctionType] [@kotlin.ContextFunctionTypeParams] Function3<Int, Pair<String, Long>, Short, List<Map<*, Float>>>
+ * 
+ * @context String.() -> Int
+ * @context p@ Result<Int>
+ * @receiver Int.Companion
+ * @param block context(Int)Pair<String, Long>.(Short) -> List<Map<*, Float>>
+ * @return Int.(Pair<String, Long>, Short) -> List<Map<*, Float>>
  * @throws NumberFormatException
  * @throws NullPointerException
  */
-context(String)
+context(String.() -> Int, p@Result<Int>)
 	@Throws(NumberFormatException::class, NullPointerException::class)
-fun function(
-	int: Int,
+fun Int.Companion.function(
 	block: context(Int)Pair<String, Long>.(Short) -> List<Map<*, Float>>,
-) {
+): Int.(Pair<String, Long>, Short) -> List<Map<*, Float>> {
+	return block
 }

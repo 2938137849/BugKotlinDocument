@@ -12,13 +12,10 @@ import com.intellij.lang.java.JavaDocumentationProvider.getPackageInfoComment
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
 import org.jetbrains.kotlin.nj2k.postProcessing.type
 import org.jetbrains.kotlin.psi.*
-
-typealias PPC = Pair<PsiFile, CodeDocumentationAwareCommenter>
 
 /**
  * @author zxj5470
@@ -45,9 +42,9 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		if (!Settings.useBugKtDoc || contextComment === null) return ""
 
 		return when (val owner = contextComment.getOwner()) {
-			is KtNamedFunction -> docKtNamedFunction(owner, contextComment.pair())
-			is KtClass -> docKtClass(owner, contextComment.pair())
-			is KtConstructor<*> -> docKtConstructor(owner, contextComment.pair())
+			is KtNamedFunction -> docKtNamedFunction(owner, contextComment.getDocPrefix())
+			is KtClass -> docKtClass(owner, contextComment.getDocPrefix())
+			is KtConstructor<*> -> docKtConstructor(owner, contextComment.getDocPrefix())
 			else -> ""
 		}
 	}
@@ -55,10 +52,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
 		(contextElement as? KDocImpl)?.owner?.docComment ?: contextElement
 
-	private fun docKtNamedFunction(owner: KtNamedFunction, pair: PPC): String = buildString {
+	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
+		owner.contextReceivers.forEach() {
+			appendDoc(prefix, CONTEXT_RECEIVER, it.itsType)
+		}
+
 		// @receiver
 		owner.receiverTypeReference?.let {
-			appendDoc(RECEIVER, pair, it.itsType)
+			appendDoc(prefix, RECEIVER, it.itsType)
 		}
 
 		// @param
@@ -66,22 +67,22 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			val param = it.nameIdentifier?.text ?: ""
 			val type = it.itsType
 			// add a space before `param` and after is no used
-			appendDoc(PARAM, pair, param, " ", type)
+			appendDoc(prefix, PARAM, param, type)
 		}
 
 		// @return
 		if (owner.hasDeclaredReturnType()) {
 			val type = owner.type()
 			if (type !== null)
-				appendDoc(RETURN, pair, type.itsType)
+				appendDoc(prefix, RETURN, type.itsType)
 			else
-				appendDoc(RETURN, pair, owner.typeReference.itsType)
+				appendDoc(prefix, RETURN, owner.typeReference?.itsType)
 		}
 		else owner.itsType.let {
 			if (!Settings.alwaysShowUnitReturnType)
-				if (it.startsWith("Unit") || it.startsWith("[Unit]"))
+				if (it == "Unit")
 					return@let
-			appendDoc(RETURN, pair, it)
+			appendDoc(prefix, RETURN, it)
 		}
 
 		// @throws
@@ -92,15 +93,15 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				it.getArgumentExpression() as? KtClassLiteralExpression
 			}) {
 				PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.let {
-					appendDoc(THROWS, pair, it.itsType)
+					appendDoc(prefix, THROWS, it.itsType)
 				}
 			}
 		}
 	}
 
-	private fun docKtClass(owner: KtClass, pair: PPC): String = buildString {
+	private fun docKtClass(owner: KtClass, prefix: String): String = buildString {
 		for (it in owner.typeParameters) {
-			appendDoc(PARAM, pair, it.itsType)
+			appendDoc(prefix, PARAM, it.itsType)
 		}
 
 		// order: 1. primary Parameters -> @property
@@ -111,7 +112,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				val type = it.itsType
 				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
 					// add a space before or after is no used
-					appendDoc(PROPERTY, pair, param, " ", type)
+					appendDoc(prefix, PROPERTY, param, type)
 				}
 			}
 		}
@@ -123,7 +124,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				val type = it.itsType
 				if (!param.isNullOrEmpty()) {
 					// add a space before or after is no used
-					appendDoc(PROPERTY, pair, param, " ", type)
+					appendDoc(prefix, PROPERTY, param, type)
 				}
 			}
 
@@ -131,36 +132,33 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		if (owner.hasPrimaryConstructor() && Settings.alwaysShowConstructor) {
 			// empty class
 			if (!owner.getPrimaryConstructorParameterList()?.parameters.isNullOrEmpty()) {
-				appendDoc(CONSTRUCTOR, pair)
+				appendDoc(prefix, CONSTRUCTOR)
 			}
 		}
 	}
 
-	private fun docKtConstructor(owner: KtConstructor<*>, pair: PPC): String = buildString {
+	private fun docKtConstructor(owner: KtConstructor<*>, prefix: String): String = buildString {
 		// @param
 		for (it in owner.valueParameters) {
 			val param = it.nameIdentifier?.text
 			val type = it.itsType
 			if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-				appendDoc(PARAM, pair, param, " ", type)
+				appendDoc(prefix, PARAM, param, type)
 			}
 		}
 
 		// @constructor
 		if (Settings.alwaysShowConstructor) {
-			appendDoc(CONSTRUCTOR, pair)
+			appendDoc(prefix, CONSTRUCTOR)
 		}
 	}
 
-	private fun PsiComment.pair(): PPC =
-		Pair(containingFile, LanguageCommenters.INSTANCE.forLanguage(language) as CodeDocumentationAwareCommenter)
+	private fun PsiComment.getDocPrefix(): String = CodeDocumentationUtil.createDocCommentLine(
+		"", containingFile, LanguageCommenters.INSTANCE.forLanguage(language) as CodeDocumentationAwareCommenter
+	)
 
-	private fun StringBuilder.appendDoc(lineData: String, arg: PPC, vararg strs: String?) {
-		append(CodeDocumentationUtil.createDocCommentLine(lineData, arg.first, arg.second))
-		for (s in strs) {
-			append(s)
-		}
-		append(LF)
+	private fun StringBuilder.appendDoc(prefix: String, vararg strs: String?) {
+		strs.joinTo(this, " ", prefix, LF)
 	}
 
 }

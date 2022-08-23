@@ -9,16 +9,20 @@ package com.github.bin.bugktdoc.samples
 
 /**
  *
+ * @context String
+ * @context i@ Int
  * @param block () -> Unit
  * @return () -> Unit
  */
-context (String)
+context (String, i@ Int)
 fun contextReceiver(block: () -> Unit): Function0<Unit> {
+	this@i.toString()
 	return block
 }
 
 /**
  *
+ * @context String
  * @param block String.() -> Unit
  * @return (String) -> Unit
  */
@@ -29,6 +33,7 @@ fun contextReceiver(block: String.() -> Unit): Function1<String, Unit> {
 
 /**
  *
+ * @context String
  * @param block Pair<String, Int>.() -> Unit
  * @return (Pair<String, Int>) -> Unit
  */
@@ -39,6 +44,7 @@ fun contextReceiver2(block: Pair<String, Int>.() -> Unit): Function1<Pair<String
 
 /**
  *
+ * @context Pair<String, Int>
  * @param block (String, Int) -> Unit
  * @return (String, Int) -> Unit
  */
