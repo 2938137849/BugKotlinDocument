@@ -4,7 +4,7 @@
 	<vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
 
 	<depends>org.jetbrains.kotlin</depends>
-
+	<depends>com.intellij.modules.java</depends>
 	<depends>com.intellij.modules.lang</depends>
 
 	<description>To generate Kotlin document comment in Kotlin File</description>
