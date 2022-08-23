@@ -10,8 +10,6 @@
 	<description>To generate Kotlin document comment in Kotlin File</description>
 	<change-notes>Disable it on editor | BugKotlinDocument.</change-notes>
 
-	<idea-version since-build="213"/>
-
 	<extensions defaultExtensionNs="com.intellij">
 		<lang.documentationProvider language="kotlin"
 			implementationClass="com.github.bin.bugktdoc.BugKtDocumentationProvider"/>

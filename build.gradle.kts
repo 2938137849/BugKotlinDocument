@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.bin"
-version = "0.3.0"
+version = "0.3.1"
 
 repositories {
 	mavenLocal()
@@ -34,6 +34,7 @@ tasks {
 	}
 	patchPluginXml {
 		version.set("${project.version}")
+		sinceBuild.set("222")
 		pluginDescription.set(file("description.html").readText())
 		changeNotes.set(file("changeNotes.html").readText())
 	}
