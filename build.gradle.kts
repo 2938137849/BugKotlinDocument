@@ -25,7 +25,7 @@ intellij {
 	updateSinceUntilBuild.set(false)
 	version.set("2022.2.1")
 
-	plugins.set(listOf("Kotlin"))
+	plugins.set(listOf("Kotlin", "java"))
 }
 
 tasks {
