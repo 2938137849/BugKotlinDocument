@@ -1,0 +1,8 @@
+<idea-plugin>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.documentationProvider language="kotlin"
+			implementationClass="com.github.bin.bugktdoc.BugKtDocumentationProvider"/>
+		<typedHandler implementation="com.github.bin.bugktdoc.BugKtDocEditorTypedHandler"/>
+	</extensions>
+</idea-plugin>

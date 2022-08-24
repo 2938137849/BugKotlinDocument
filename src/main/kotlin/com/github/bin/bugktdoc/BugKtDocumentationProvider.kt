@@ -3,17 +3,15 @@ package com.github.bin.bugktdoc
 import com.github.bin.bugktdoc.constants.*
 import com.github.bin.bugktdoc.util.itsType
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
-import com.intellij.ide.util.PackageUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.lang.LanguageCommenters
 import com.intellij.lang.documentation.CodeDocumentationProvider
 import com.intellij.lang.documentation.DocumentationProviderEx
-import com.intellij.lang.java.JavaDocumentationProvider.getPackageInfoComment
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
+import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.nj2k.postProcessing.type
 import org.jetbrains.kotlin.psi.*
 
@@ -22,45 +20,45 @@ import org.jetbrains.kotlin.psi.*
  * @date 2018/4/6
  */
 class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider {
-	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment> {
-		var current = startPoint
-		while (true) {
-			if (current is KDocImpl) {
+	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment>? {
+		var current: PsiElement? = startPoint
+		while (current !== null) {
+			if (current is KDoc) {
 				return Pair(current, current)
 			}
-			else if (PackageUtil.isPackageInfoFile(current)) {
-				return Pair(current, getPackageInfoComment(current))
-			}
+			// else if (PackageUtil.isPackageInfoFile(current)) {
+			// 	return Pair(current, getPackageInfoComment(current))
+			// }
 			current = current.parent
 		}
+		return null
 	}
-
-	private fun PsiComment.getOwner() = PsiTreeUtil.getParentOfType<KtDeclaration>(this)
-		?: this.parent.takeIf { it is KtFunction || it is KtClass }
 
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String {
 		if (!Settings.useDoc || contextComment === null) return ""
-		val owner = contextComment.getOwner()
 		val prefix = contextComment.getDocPrefix()
-		return when {
-			Settings.useFunctionDoc && owner is KtNamedFunction -> {
-				docKtNamedFunction(owner, prefix)
+		return when (val owner = contextComment.parent ?: return "") {
+			is KtNamedFunction -> {
+				if (!Settings.useFunctionDoc) ""
+				else docKtNamedFunction(owner, prefix)
 			}
-			Settings.useClassDoc && owner is KtClass -> {
-				docKtClass(owner, prefix)
+			is KtClass -> {
+				if (!Settings.useClassDoc) ""
+				else docKtClass(owner, prefix)
 			}
-			Settings.useConstructorDoc && owner is KtConstructor<*> -> {
-				docKtConstructor(owner, prefix)
+			is KtConstructor<*> -> {
+				if (!Settings.useConstructorDoc) ""
+				else docKtConstructor(owner, prefix)
 			}
 			else -> ""
 		}
 	}
 
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
-		(contextElement as? KDocImpl)?.owner?.docComment ?: contextElement
+		(contextElement as? KDoc)?.owner?.docComment ?: contextElement
 
 	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
-		owner.contextReceivers.forEach() {
+		owner.contextReceivers.forEach {
 			appendDoc(prefix, CONTEXT_RECEIVER, it.itsType)
 		}
 
