@@ -39,12 +39,19 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		?: this.parent.takeIf { it is KtFunction || it is KtClass }
 
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String {
-		if (!Settings.useBugKtDoc || contextComment === null) return ""
-
-		return when (val owner = contextComment.getOwner()) {
-			is KtNamedFunction -> docKtNamedFunction(owner, contextComment.getDocPrefix())
-			is KtClass -> docKtClass(owner, contextComment.getDocPrefix())
-			is KtConstructor<*> -> docKtConstructor(owner, contextComment.getDocPrefix())
+		if (!Settings.useDoc || contextComment === null) return ""
+		val owner = contextComment.getOwner()
+		val prefix = contextComment.getDocPrefix()
+		return when {
+			Settings.useFunctionDoc && owner is KtNamedFunction -> {
+				docKtNamedFunction(owner, prefix)
+			}
+			Settings.useClassDoc && owner is KtClass -> {
+				docKtClass(owner, prefix)
+			}
+			Settings.useConstructorDoc && owner is KtConstructor<*> -> {
+				docKtConstructor(owner, prefix)
+			}
 			else -> ""
 		}
 	}

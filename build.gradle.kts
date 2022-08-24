@@ -1,7 +1,7 @@
 plugins {
 	id("java")
 	id("org.jetbrains.intellij") version "1.8.0"
-	id("org.jetbrains.kotlin.jvm") version "1.7.10"
+	kotlin("jvm") version "1.7.10"
 }
 
 group = "com.github.bin"
@@ -44,5 +44,9 @@ tasks {
 	compileTestKotlin {
 		kotlinOptions.jvmTarget = "11"
 		kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+	}
+
+	publishPlugin {
+		token.set(System.getenv("PUBLISH_TOKEN"))
 	}
 }

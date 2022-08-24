@@ -1,0 +1,130 @@
+JFDML JFormDesigner: "7.0.7.0.1134" Java: "17.0.3" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.autoExternalize": true
+	"i18n.bundleName": "BugKtDocBundle"
+	"i18n.keyPrefix": "Aaa"
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
+			"$columnCount": 1
+			"$rowCount": 9
+			"hGap": 4
+		} ) {
+			name: "panel"
+			auxiliary() {
+				"JavaCodeGenerator.variableName": "panel"
+				"JavaCodeGenerator.variableModifiers": 4
+			}
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "useAll"
+				"text": new FormMessage( null, "bugktdoc.options.use" )
+				"selected": true
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.toolTip" )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"anchor": 9
+			} )
+			add( new FormComponent( "javax.swing.JSeparator" ) {
+				name: "separator1"
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 1
+				"fill": 3
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "useFunction"
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc" )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "useFunction", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"anchor": 8
+				"indent": 2
+				"row": 2
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "showUnitTypeDefault"
+				"text": new FormMessage( null, "bugktdoc.options.default.unit" )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"anchor": 8
+				"indent": 4
+				"row": 3
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "useClass"
+				"text": new FormMessage( null, "bugktdoc.options.use.classDoc" )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "useClass", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"anchor": 8
+				"indent": 2
+				"row": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "showClassFieldProperty"
+				"text": new FormMessage( null, "bugktdoc.options.default.property" )
+				"selected": true
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"anchor": 8
+				"indent": 4
+				"row": 5
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "useConstructor"
+				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc" )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "useConstructor", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"anchor": 8
+				"indent": 2
+				"row": 6
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "showConstructor"
+				"text": new FormMessage( null, "bugktdoc.options.default.constructor" )
+				"selected": true
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 4
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 7
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+				name: "vSpacer1"
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 8
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 5 )
+			"size": new java.awt.Dimension( 540, 465 )
+		} )
+	}
+}
