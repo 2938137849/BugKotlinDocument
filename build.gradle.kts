@@ -9,8 +9,6 @@ plugins {
 	kotlin("jvm") version "1.7.10"
 }
 
-group = "com.github.bin"
-version = "0.3.2-beta"
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 
@@ -45,7 +43,7 @@ tasks {
 		enabled = false
 	}
 	patchPluginXml {
-		version.set(properties("platformVersion"))
+		version.set(properties("pluginVersion"))
 		sinceBuild.set(properties("pluginSinceBuild"))
 		untilBuild.set(properties("pluginUntilBuild"))
 		pluginDescription.set(file("description.html").readText())
