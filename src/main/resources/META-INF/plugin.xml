@@ -3,13 +3,16 @@
 	<name>BugKotlinDocument By Bin</name>
 	<vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
 
-	<depends optional="true" config-file="kotlin-doc.xml">org.jetbrains.kotlin</depends>
+	<depends>org.jetbrains.kotlin</depends>
 	<depends>com.intellij.modules.lang</depends>
 
 	<description>To generate Kotlin document comment in Kotlin File</description>
 	<change-notes>Disable it on editor | BugKotlinDocument.</change-notes>
 
 	<extensions defaultExtensionNs="com.intellij">
+		<lang.documentationProvider language="kotlin"
+			implementationClass="com.github.bin.bugktdoc.BugKtDocumentationProvider"/>
+		<typedHandler implementation="com.github.bin.bugktdoc.BugKtDocEditorTypedHandler"/>
 		<applicationConfigurable groupId="editor"
 			id="com.github.bin.bugktdoc.applicationConfigurable"
 			instance="com.github.bin.bugktdoc.ui.BugKtDocConfigureFormImpl"/>
