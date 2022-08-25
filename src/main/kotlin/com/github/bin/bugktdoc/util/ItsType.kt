@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.TypeProjection
+import org.jetbrains.kotlin.types.Variance
 
 
 val KtNameReferenceExpression.itsType: String
@@ -24,7 +25,17 @@ private val KtTypeElement.itsType: String
 
 val KtTypeParameter.itsType: String
 	get() {
-		return text
+		return buildString {
+			append(nameAsSafeName)
+			extendsBound?.let {
+				if (variance != Variance.INVARIANT) {
+					append(' ')
+					append(variance.label)
+				}
+				append(' ')
+				append(it.itsType)
+			}
+		}
 	}
 
 val KtContextReceiver.itsType: String

@@ -109,6 +109,19 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			appendDoc(prefix, PARAM, it.itsType)
 		}
 
+		// @param
+		if (owner.hasPrimaryConstructor()) {
+			val parameters = owner.getPrimaryConstructorParameterList()!!.parameters
+			// @param
+			for (it in parameters) {
+				val param = it.nameIdentifier?.text
+				val type = it.itsType
+				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
+					appendDoc(prefix, PARAM, param, type)
+				}
+			}
+		}
+
 		// order: 1. primary Parameters -> @property
 		for (it in owner.primaryConstructorParameters) {
 			// is property
@@ -134,11 +147,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			}
 
 		// @constructor
-		if (owner.hasPrimaryConstructor() && Settings.alwaysShowConstructor) {
-			// empty class
-			if (!owner.getPrimaryConstructorParameterList()?.parameters.isNullOrEmpty()) {
-				appendDoc(prefix, CONSTRUCTOR)
-			}
+		if (Settings.alwaysShowConstructor) {
+			appendDoc(prefix, CONSTRUCTOR)
 		}
 	}
 
