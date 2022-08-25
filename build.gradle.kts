@@ -29,7 +29,6 @@ dependencies {
 }
 
 intellij {
-	pluginName.set(properties("pluginName"))
 	type.set(properties("platformType")) // Target IDE Platform
 	downloadSources.set(true)
 	updateSinceUntilBuild.set(false)

@@ -8,12 +8,11 @@ import com.intellij.notification.Notifications
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import org.jetbrains.kotlin.idea.KotlinLanguage
 
 class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 	override fun charTyped(c: Char, project: Project, editor: Editor, file: PsiFile): Result {
 		// avoid NoClassDef if no Kotlin plugin
-		if (file.language !is KotlinLanguage) return super.charTyped(c, project, editor, file)
+		if (!file.language.id.equals("Kotlin", true)) return super.charTyped(c, project, editor, file)
 
 		if (Settings.theFirstTile && c == '*' && getCurrentLineToCurrentChar(editor).endsWith("/**")) {
 			Notifications.Bus.notify(

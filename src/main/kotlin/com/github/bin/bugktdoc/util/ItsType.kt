@@ -17,7 +17,7 @@ val KtTypeReference.itsType: String
 		return typeElement?.itsType ?: ""
 	}
 
-val KtTypeElement.itsType: String
+private val KtTypeElement.itsType: String
 	get() {
 		return text
 	}
@@ -40,7 +40,7 @@ val KtCallableDeclaration.itsType: String
 		return SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).itsType
 	}
 
-val TypeProjection.itsType: String
+private val TypeProjection.itsType: String
 	get() {
 		return type.itsType
 	}
