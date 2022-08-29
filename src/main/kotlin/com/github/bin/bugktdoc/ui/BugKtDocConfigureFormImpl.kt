@@ -2,64 +2,69 @@ package com.github.bin.bugktdoc.ui
 
 import com.github.bin.bugktdoc.BugKtDocBundle
 import com.github.bin.bugktdoc.Settings
-import com.github.bin.bugktdoc.options.BugKtDocSettings
 import com.intellij.openapi.options.Configurable
-import java.awt.event.ActionEvent
+import com.intellij.ui.components.JBCheckBox
 
 /**
  * @author zxj5470
  * @date 2018/4/2
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
-	private var default: BugKtDocSettings = Settings.copy()
 
-	init {
-		useAll.isSelected = default.useDoc
-		useFunction.isSelected = default.useFunctionDoc
-		showUnitTypeDefault.isSelected = default.alwaysShowUnitReturnType
-		useClass.isSelected = default.useClassDoc
-		showClassFieldProperty.isSelected = default.alwaysShowClassFieldProperty
-		useConstructor.isSelected = default.useConstructorDoc
-		showConstructor.isSelected = default.alwaysShowConstructor
-	}
-
-	override fun useFunction(e: ActionEvent?) {
-		val selected = useFunction.isSelected
-		arrayOf(showUnitTypeDefault).forEach {
-			it.isEnabled = selected
+	override fun createUIComponents() {
+		reset()
+		useDoc = JBCheckBox()
+		useDoc.isSelected = local.useDoc
+		useDoc.addActionListener {
+			local.useDoc = useDoc.isSelected
 		}
-	}
-
-	override fun useClass(e: ActionEvent?) {
-		val selected = useClass.isSelected
-		arrayOf(showClassFieldProperty).forEach {
-			it.isEnabled = selected
+		useFunctionDoc = JBCheckBox()
+		useFunctionDoc.isSelected = local.useFunctionDoc
+		useFunctionDoc.addActionListener {
+			local.useFunctionDoc = useFunctionDoc.isSelected
+			arrayOf(alwaysShowUnitReturnType).forEach {
+				it.isEnabled = local.useFunctionDoc
+			}
 		}
-	}
-
-	override fun useConstructor(e: ActionEvent?) {
-		val selected = useConstructor.isSelected
-		arrayOf(showConstructor).forEach {
-			it.isEnabled = selected
+		alwaysShowUnitReturnType = JBCheckBox()
+		alwaysShowUnitReturnType.isSelected = local.alwaysShowUnitReturnType
+		alwaysShowUnitReturnType.addActionListener {
+			local.alwaysShowUnitReturnType = alwaysShowUnitReturnType.isSelected
 		}
-	}
-
-	override fun switchListener(e: ActionEvent?) {
-		default.useDoc = useAll.isSelected
-		default.useFunctionDoc = useFunction.isSelected
-		default.alwaysShowUnitReturnType = showUnitTypeDefault.isSelected
-		default.useClassDoc = useClass.isSelected
-		default.alwaysShowClassFieldProperty = showClassFieldProperty.isSelected
-		default.useConstructorDoc = useConstructor.isSelected
-		default.alwaysShowConstructor = showConstructor.isSelected
+		useFunctionDoc = JBCheckBox()
+		useFunctionDoc.isSelected = local.useFunctionDoc
+		useFunctionDoc.addActionListener {
+			local.useFunctionDoc = useFunctionDoc.isSelected
+			arrayOf(alwaysShowClassFieldProperty).forEach {
+				it.isEnabled = local.useFunctionDoc
+			}
+		}
+		alwaysShowClassFieldProperty = JBCheckBox()
+		alwaysShowClassFieldProperty.isSelected = local.alwaysShowClassFieldProperty
+		alwaysShowClassFieldProperty.addActionListener {
+			local.alwaysShowClassFieldProperty = alwaysShowClassFieldProperty.isSelected
+		}
+		useConstructorDoc = JBCheckBox()
+		useConstructorDoc.isSelected = local.useConstructorDoc
+		useConstructorDoc.addActionListener {
+			local.useConstructorDoc = useConstructorDoc.isSelected
+			arrayOf(alwaysShowConstructor).forEach {
+				it.isEnabled = local.useConstructorDoc
+			}
+		}
+		alwaysShowConstructor = JBCheckBox()
+		alwaysShowConstructor.isSelected = local.alwaysShowConstructor
+		alwaysShowConstructor.addActionListener {
+			local.alwaysShowConstructor = alwaysShowConstructor.isSelected
+		}
 	}
 
 	override fun isModified(): Boolean {
-		return default != Settings
+		return local != Settings
 	}
 
 	override fun reset() {
-		default = Settings.copy()
+		local = Settings.copy()
 	}
 
 	override fun getDisplayName() = BugKtDocBundle("bugktdoc.settings.title")
@@ -67,11 +72,11 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 	override fun getHelpTopic(): String = BugKtDocBundle("bugktdoc.settings.content")
 
 	override fun apply() {
-		Settings = default.copy()
+		Settings = local.copy()
 	}
 
 	override fun cancel() {
-		default = Settings.copy()
+		reset()
 	}
 
 	override fun createComponent() = panel!!

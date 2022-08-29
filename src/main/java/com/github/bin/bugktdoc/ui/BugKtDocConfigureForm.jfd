@@ -17,14 +17,14 @@ new FormModel {
 				"JavaCodeGenerator.variableModifiers": 4
 			}
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "useAll"
+				name: "useDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use" )
 				"selected": true
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 9
 			} )
@@ -38,77 +38,74 @@ new FormModel {
 				"fill": 3
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "useFunction"
+				name: "useFunctionDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "useFunction", true ) )
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
 				"row": 2
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "showUnitTypeDefault"
+				name: "alwaysShowUnitReturnType"
 				"text": new FormMessage( null, "bugktdoc.options.default.unit" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 4
 				"row": 3
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "useClass"
+				name: "useClassDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "useClass", true ) )
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
 				"row": 4
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "showClassFieldProperty"
+				name: "alwaysShowClassFieldProperty"
 				"text": new FormMessage( null, "bugktdoc.options.default.property" )
 				"selected": true
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 4
 				"row": 5
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "useConstructor"
+				name: "useConstructorDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "useConstructor", true ) )
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
 				"row": 6
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "showConstructor"
+				name: "alwaysShowConstructor"
 				"text": new FormMessage( null, "bugktdoc.options.default.constructor" )
 				"selected": true
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
+					"JavaCodeGenerator.customCreate": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "switchListener", true ) )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 7
 				"anchor": 8

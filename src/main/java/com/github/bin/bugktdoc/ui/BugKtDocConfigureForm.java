@@ -5,10 +5,10 @@
 package com.github.bin.bugktdoc.ui;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+import com.github.bin.bugktdoc.options.BugKtDocSettings;
 import com.intellij.ui.components.*;
 
 import com.intellij.uiDesigner.core.*;
@@ -17,44 +17,32 @@ import com.intellij.uiDesigner.core.*;
  * @author unknown
  */
 public class BugKtDocConfigureForm {
+	protected BugKtDocSettings local;
+
 	public BugKtDocConfigureForm() {
 		initComponents();
 	}
 
-	protected void switchListener(ActionEvent e) {
+	@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
+	protected void createUIComponents() {
 	}
 
-	protected void useFunction(ActionEvent e) {
-	}
-
-	protected void useClass(ActionEvent e) {
-	}
-
-	protected void useConstructor(ActionEvent e) {
-	}
-
-	@SuppressWarnings({"UseDPIAwareInsets", "Convert2MethodRef", "AlibabaMethodTooLong"})
+	@SuppressWarnings({"UseDPIAwareInsets", "AlibabaMethodTooLong"})
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+		createUIComponents();
+
 		panel = new JPanel();
-		useAll = new JBCheckBox();
 		var separator1 = new JSeparator();
-		useFunction = new JBCheckBox();
-		showUnitTypeDefault = new JBCheckBox();
-		useClass = new JBCheckBox();
-		showClassFieldProperty = new JBCheckBox();
-		useConstructor = new JBCheckBox();
-		showConstructor = new JBCheckBox();
 		var vSpacer1 = new Spacer();
 
 		//======== panel ========
 		{
 			panel.setLayout(new GridLayoutManager(9, 1, new Insets(0, 0, 0, 0), 4, -1));
 
-			//---- useAll ----
-			useAll.setSelected(true);
-			useAll.addActionListener(e -> switchListener(e));
-			panel.add(useAll, new GridConstraints(0, 0, 1, 1,
+			//---- useDoc ----
+			useDoc.setSelected(true);
+			panel.add(useDoc, new GridConstraints(0, 0, 1, 1,
 				GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -64,61 +52,38 @@ public class BugKtDocConfigureForm {
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null));
-
-			//---- useFunction ----
-			useFunction.addActionListener(e -> {
-			useFunction(e);
-			switchListener(e);
-		});
-			panel.add(useFunction, new GridConstraints(2, 0, 1, 1,
+			panel.add(useFunctionDoc, new GridConstraints(2, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-
-			//---- showUnitTypeDefault ----
-			showUnitTypeDefault.addActionListener(e -> switchListener(e));
-			panel.add(showUnitTypeDefault, new GridConstraints(3, 0, 1, 1,
+			panel.add(alwaysShowUnitReturnType, new GridConstraints(3, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-
-			//---- useClass ----
-			useClass.addActionListener(e -> {
-			useClass(e);
-			switchListener(e);
-		});
-			panel.add(useClass, new GridConstraints(4, 0, 1, 1,
+			panel.add(useClassDoc, new GridConstraints(4, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
 
-			//---- showClassFieldProperty ----
-			showClassFieldProperty.setSelected(true);
-			showClassFieldProperty.addActionListener(e -> switchListener(e));
-			panel.add(showClassFieldProperty, new GridConstraints(5, 0, 1, 1,
+			//---- alwaysShowClassFieldProperty ----
+			alwaysShowClassFieldProperty.setSelected(true);
+			panel.add(alwaysShowClassFieldProperty, new GridConstraints(5, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-
-			//---- useConstructor ----
-			useConstructor.addActionListener(e -> {
-			useConstructor(e);
-			switchListener(e);
-		});
-			panel.add(useConstructor, new GridConstraints(6, 0, 1, 1,
+			panel.add(useConstructorDoc, new GridConstraints(6, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
 
-			//---- showConstructor ----
-			showConstructor.setSelected(true);
-			showConstructor.addActionListener(e -> switchListener(e));
-			panel.add(showConstructor, new GridConstraints(7, 0, 1, 1,
+			//---- alwaysShowConstructor ----
+			alwaysShowConstructor.setSelected(true);
+			panel.add(alwaysShowConstructor, new GridConstraints(7, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -137,25 +102,25 @@ public class BugKtDocConfigureForm {
 	private void initComponentsI18n() {
 		// JFormDesigner - Component i18n initialization - DO NOT MODIFY  //GEN-BEGIN:initI18n
 		ResourceBundle bundle = ResourceBundle.getBundle("BugKtDocBundle");
-		useAll.setText(bundle.getString("bugktdoc.options.use"));
-		useAll.setToolTipText(bundle.getString("bugktdoc.options.use.toolTip"));
-		useFunction.setText(bundle.getString("bugktdoc.options.use.functionDoc"));
-		showUnitTypeDefault.setText(bundle.getString("bugktdoc.options.default.unit"));
-		useClass.setText(bundle.getString("bugktdoc.options.use.classDoc"));
-		showClassFieldProperty.setText(bundle.getString("bugktdoc.options.default.property"));
-		useConstructor.setText(bundle.getString("bugktdoc.options.use.constructorDoc"));
-		showConstructor.setText(bundle.getString("bugktdoc.options.default.constructor"));
+		useDoc.setText(bundle.getString("bugktdoc.options.use"));
+		useDoc.setToolTipText(bundle.getString("bugktdoc.options.use.toolTip"));
+		useFunctionDoc.setText(bundle.getString("bugktdoc.options.use.functionDoc"));
+		alwaysShowUnitReturnType.setText(bundle.getString("bugktdoc.options.default.unit"));
+		useClassDoc.setText(bundle.getString("bugktdoc.options.use.classDoc"));
+		alwaysShowClassFieldProperty.setText(bundle.getString("bugktdoc.options.default.property"));
+		useConstructorDoc.setText(bundle.getString("bugktdoc.options.use.constructorDoc"));
+		alwaysShowConstructor.setText(bundle.getString("bugktdoc.options.default.constructor"));
 		// JFormDesigner - End of component i18n initialization  //GEN-END:initI18n
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	protected JPanel panel;
-	protected JBCheckBox useAll;
-	protected JBCheckBox useFunction;
-	protected JBCheckBox showUnitTypeDefault;
-	protected JBCheckBox useClass;
-	protected JBCheckBox showClassFieldProperty;
-	protected JBCheckBox useConstructor;
-	protected JBCheckBox showConstructor;
+	protected JBCheckBox useDoc;
+	protected JBCheckBox useFunctionDoc;
+	protected JBCheckBox alwaysShowUnitReturnType;
+	protected JBCheckBox useClassDoc;
+	protected JBCheckBox alwaysShowClassFieldProperty;
+	protected JBCheckBox useConstructorDoc;
+	protected JBCheckBox alwaysShowConstructor;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }
