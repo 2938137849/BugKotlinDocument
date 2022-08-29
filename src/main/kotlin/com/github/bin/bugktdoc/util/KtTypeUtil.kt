@@ -39,12 +39,9 @@ interface KtTypeUtil {
 			}
 		}
 
-	val KtContextReceiver.itsType: String
+	val KtContextReceiver.itsType: String?
 		get() {
-			return buildString {
-				labelName()?.let { append(it).append("@ ") }
-				append(typeReference()?.itsType)
-			}
+			return typeReference()?.itsType
 		}
 
 	val KtCallableDeclaration.itsType: String

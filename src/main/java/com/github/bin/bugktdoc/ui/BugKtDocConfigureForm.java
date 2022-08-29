@@ -4,20 +4,20 @@
 
 package com.github.bin.bugktdoc.ui;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.Insets;
+import java.util.ResourceBundle;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
-import com.github.bin.bugktdoc.options.BugKtDocSettings;
-import com.intellij.ui.components.*;
-
-import com.intellij.uiDesigner.core.*;
+import com.intellij.ui.components.JBCheckBox;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 
 /**
- * @author unknown
+ * @author bin
  */
 public class BugKtDocConfigureForm {
-	protected BugKtDocSettings local;
 
 	public BugKtDocConfigureForm() {
 		initComponents();
@@ -38,10 +38,7 @@ public class BugKtDocConfigureForm {
 
 		//======== panel ========
 		{
-			panel.setLayout(new GridLayoutManager(9, 1, new Insets(0, 0, 0, 0), 4, -1));
-
-			//---- useDoc ----
-			useDoc.setSelected(true);
+			panel.setLayout(new GridLayoutManager(16, 1, new Insets(0, 0, 0, 0), 4, -1));
 			panel.add(useDoc, new GridConstraints(0, 0, 1, 1,
 				GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -57,38 +54,52 @@ public class BugKtDocConfigureForm {
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-			panel.add(alwaysShowUnitReturnType, new GridConstraints(3, 0, 1, 1,
+			panel.add(funContext, new GridConstraints(3, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(useClassDoc, new GridConstraints(4, 0, 1, 1,
+			panel.add(funReceiver, new GridConstraints(4, 0, 1, 1,
+				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				null, null, null, 4));
+			panel.add(funReturn, new GridConstraints(5, 0, 1, 1,
+				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				null, null, null, 4));
+			panel.add(alwaysShowUnitReturnType, new GridConstraints(6, 0, 1, 1,
+				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				null, null, null, 6));
+			panel.add(funThrows, new GridConstraints(7, 0, 1, 1,
+				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				null, null, null, 4));
+			panel.add(useClassDoc, new GridConstraints(9, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-
-			//---- alwaysShowClassFieldProperty ----
-			alwaysShowClassFieldProperty.setSelected(true);
-			panel.add(alwaysShowClassFieldProperty, new GridConstraints(5, 0, 1, 1,
+			panel.add(alwaysShowClassFieldProperty, new GridConstraints(10, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(useConstructorDoc, new GridConstraints(6, 0, 1, 1,
+			panel.add(useConstructorDoc, new GridConstraints(12, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-
-			//---- alwaysShowConstructor ----
-			alwaysShowConstructor.setSelected(true);
-			panel.add(alwaysShowConstructor, new GridConstraints(7, 0, 1, 1,
+			panel.add(alwaysShowConstructor, new GridConstraints(13, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(vSpacer1, new GridConstraints(8, 0, 1, 1,
+			panel.add(vSpacer1, new GridConstraints(14, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK,
 				GridConstraints.SIZEPOLICY_CAN_GROW | GridConstraints.SIZEPOLICY_WANT_GROW,
@@ -105,11 +116,15 @@ public class BugKtDocConfigureForm {
 		useDoc.setText(bundle.getString("bugktdoc.options.use"));
 		useDoc.setToolTipText(bundle.getString("bugktdoc.options.use.toolTip"));
 		useFunctionDoc.setText(bundle.getString("bugktdoc.options.use.functionDoc"));
-		alwaysShowUnitReturnType.setText(bundle.getString("bugktdoc.options.default.unit"));
+		funContext.setText(bundle.getString("bugktdoc.options.use.functionDoc.@context"));
+		funReceiver.setText(bundle.getString("bugktdoc.options.use.functionDoc.@receiver"));
+		funReturn.setText(bundle.getString("bugktdoc.options.use.functionDoc.@return"));
+		alwaysShowUnitReturnType.setText(bundle.getString("bugktdoc.options.use.functionDoc.returnUnit"));
+		funThrows.setText(bundle.getString("bugktdoc.options.use.functionDoc.@throws"));
 		useClassDoc.setText(bundle.getString("bugktdoc.options.use.classDoc"));
-		alwaysShowClassFieldProperty.setText(bundle.getString("bugktdoc.options.default.property"));
+		alwaysShowClassFieldProperty.setText(bundle.getString("bugktdoc.options.use.classDoc.@property"));
 		useConstructorDoc.setText(bundle.getString("bugktdoc.options.use.constructorDoc"));
-		alwaysShowConstructor.setText(bundle.getString("bugktdoc.options.default.constructor"));
+		alwaysShowConstructor.setText(bundle.getString("bugktdoc.options.use.constructorDoc.@constructor"));
 		// JFormDesigner - End of component i18n initialization  //GEN-END:initI18n
 	}
 
@@ -117,7 +132,11 @@ public class BugKtDocConfigureForm {
 	protected JPanel panel;
 	protected JBCheckBox useDoc;
 	protected JBCheckBox useFunctionDoc;
+	protected JBCheckBox funContext;
+	protected JBCheckBox funReceiver;
+	protected JBCheckBox funReturn;
 	protected JBCheckBox alwaysShowUnitReturnType;
+	protected JBCheckBox funThrows;
 	protected JBCheckBox useClassDoc;
 	protected JBCheckBox alwaysShowClassFieldProperty;
 	protected JBCheckBox useConstructorDoc;

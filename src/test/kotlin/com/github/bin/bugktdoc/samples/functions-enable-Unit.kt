@@ -8,9 +8,9 @@ package com.github.bin.bugktdoc.samples
 
 /**
  *
- * @param strings [Array]<*>?
- * @param map [Map]<out [Any]?, [String]?>
- * @return [Map]<out [Any]?, [String]?>?
+ * @param strings Array<*>?
+ * @param map Map<out Any?, String?>
+ * @return Map<out Any?, String?>?
  */
 fun twoParamUnit(strings: Array<*>?,map: Map<out Any?,String?>): Map<out Any?,String?>? {
     return null
@@ -19,8 +19,8 @@ fun twoParamUnit(strings: Array<*>?,map: Map<out Any?,String?>): Map<out Any?,St
 
 /**
  *
- * @param i [Int]
- * @param strings [Array<out String>]
+ * @param i Int
+ * @param strings Array<out String?>
  */
 fun paramsWithVarargU(i: Int, vararg strings: String?) {
 

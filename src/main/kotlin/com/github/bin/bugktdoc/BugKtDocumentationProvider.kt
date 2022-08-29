@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.psi.*
 
 /**
  * @author zxj5470
+ * @author bin
  * @date 2018/4/6
  */
 class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider, KtTypeUtil {
@@ -55,41 +56,50 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		(contextElement as? KDoc)?.owner?.docComment ?: contextElement
 
 	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
-		owner.contextReceivers.forEach {
-			appendDoc(prefix, CONTEXT_RECEIVER, it.itsType)
+		if (Settings.funContext) {
+			owner.contextReceivers.forEach {
+				appendDoc(prefix, CONTEXT_RECEIVER, it.itsType)
+			}
 		}
 
 		// @receiver
-		owner.receiverTypeReference?.let {
-			appendDoc(prefix, RECEIVER, it.itsType)
+		if (Settings.funReceiver) {
+			owner.receiverTypeReference?.let {
+				appendDoc(prefix, RECEIVER, it.itsType)
+			}
 		}
 
 		// @param
-		appendDoc(prefix, PARAM, owner.valueParameters)
+		if (Settings.funParam) {
+			appendDoc(prefix, PARAM, owner.valueParameters)
+		}
 
 		// @return
-		if (owner.hasDeclaredReturnType()) {
-			val type = owner.type()
-			if (type !== null)
-				appendDoc(prefix, RETURN, type.itsType)
-			else
-				appendDoc(prefix, RETURN, owner.typeReference?.itsType)
-		}
-		else owner.itsType.let {
-			if (!Settings.alwaysShowUnitReturnType)
-				if (it == "Unit")
-					return@let
-			appendDoc(prefix, RETURN, it)
+		if (Settings.funReturn) {
+			if (owner.hasDeclaredReturnType()) {
+				val type = owner.type()
+				if (type !== null)
+					appendDoc(prefix, RETURN, type.itsType)
+				else
+					appendDoc(prefix, RETURN, owner.typeReference?.itsType)
+			}
+			else owner.itsType.let {
+				if (!Settings.alwaysShowUnitReturnType)
+					if (it == "Unit")
+						return@let
+				appendDoc(prefix, RETURN, it)
+			}
 		}
 
 		// @throws
-		PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java).firstOrNull {
-			it.calleeExpression?.text == "Throws"
-		}?.run {
-			for (it in valueArguments.mapNotNull {
-				it.getArgumentExpression() as? KtClassLiteralExpression
-			}) {
-				PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.let {
+		if (Settings.funThrows) {
+			val annotationEntries = PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
+			annotationEntries.firstOrNull {
+				it.calleeExpression?.text == "Throws"
+			}?.run {
+				for (argument in valueArguments) {
+					val expression = (argument.getArgumentExpression() as? KtClassLiteralExpression) ?: continue
+					val it = PsiTreeUtil.findChildOfType(expression, KtNameReferenceExpression::class.java) ?: continue
 					appendDoc(prefix, THROWS, it.itsType)
 				}
 			}

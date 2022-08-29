@@ -8,7 +8,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
 			"$columnCount": 1
-			"$rowCount": 9
+			"$rowCount": 16
 			"hGap": 4
 		} ) {
 			name: "panel"
@@ -19,7 +19,6 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use" )
-				"selected": true
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
@@ -50,16 +49,64 @@ new FormModel {
 				"row": 2
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox1"
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@context" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "funContext"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 3
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox2"
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@receiver" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "funReceiver"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 4
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox4"
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@return" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "funReturn"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 5
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowUnitReturnType"
-				"text": new FormMessage( null, "bugktdoc.options.default.unit" )
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.returnUnit" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
+				"indent": 6
+				"row": 6
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox3"
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@throws" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "funThrows"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 7
+				"anchor": 8
 				"indent": 4
-				"row": 3
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useClassDoc"
@@ -71,12 +118,11 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
-				"row": 4
+				"row": 9
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowClassFieldProperty"
-				"text": new FormMessage( null, "bugktdoc.options.default.property" )
-				"selected": true
+				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@property" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
@@ -84,7 +130,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 4
-				"row": 5
+				"row": 10
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useConstructorDoc"
@@ -96,18 +142,17 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
-				"row": 6
+				"row": 12
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowConstructor"
-				"text": new FormMessage( null, "bugktdoc.options.default.constructor" )
-				"selected": true
+				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 7
+				"row": 13
 				"anchor": 8
 				"indent": 4
 			} )
@@ -117,11 +162,11 @@ new FormModel {
 					"JavaCodeGenerator.variableLocal": true
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 8
+				"row": 14
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
-			"size": new java.awt.Dimension( 540, 465 )
+			"size": new java.awt.Dimension( 785, 675 )
 		} )
 	}
 }
