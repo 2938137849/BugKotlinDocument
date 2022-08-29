@@ -1,7 +1,7 @@
 package com.github.bin.bugktdoc
 
 import com.github.bin.bugktdoc.constants.*
-import com.github.bin.bugktdoc.util.itsType
+import com.github.bin.bugktdoc.util.KtTypeUtil
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.lang.LanguageCommenters
@@ -19,16 +19,13 @@ import org.jetbrains.kotlin.psi.*
  * @author zxj5470
  * @date 2018/4/6
  */
-class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider {
+class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider, KtTypeUtil {
 	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment>? {
 		var current: PsiElement? = startPoint
 		while (current !== null) {
 			if (current is KDoc) {
 				return Pair(current, current)
 			}
-			// else if (PackageUtil.isPackageInfoFile(current)) {
-			// 	return Pair(current, getPackageInfoComment(current))
-			// }
 			current = current.parent
 		}
 		return null
