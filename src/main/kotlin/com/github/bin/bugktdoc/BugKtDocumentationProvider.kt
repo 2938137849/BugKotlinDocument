@@ -34,23 +34,23 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		return null
 	}
 
-	override fun generateDocumentationContentStub(contextComment: PsiComment?): String {
-		if (!Settings.useDoc || contextComment === null) return ""
+	override fun generateDocumentationContentStub(contextComment: PsiComment?): String? {
+		if (!Settings.useDoc || contextComment === null) return null
 		val prefix = contextComment.getDocPrefix()
-		return when (val owner = contextComment.parent ?: return "") {
+		return when (val owner = contextComment.parent ?: return null) {
 			is KtNamedFunction -> {
-				if (!Settings.useFunctionDoc) ""
+				if (!Settings.useFunctionDoc) null
 				else docKtNamedFunction(owner, prefix)
 			}
 			is KtClass -> {
-				if (!Settings.useClassDoc) ""
+				if (!Settings.useClassDoc) null
 				else docKtClass(owner, prefix)
 			}
 			is KtConstructor<*> -> {
-				if (!Settings.useConstructorDoc) ""
+				if (!Settings.useConstructorDoc) null
 				else docKtConstructor(owner, prefix)
 			}
-			else -> ""
+			else -> null
 		}
 	}
 
@@ -68,12 +68,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 
 		// @param
-		for (it in owner.valueParameters) {
-			val param = it.nameIdentifier?.text ?: ""
-			val type = it.itsType
-			// add a space before `param` and after is no used
-			appendDoc(prefix, PARAM, param, type)
-		}
+		appendDoc(prefix, PARAM, owner.valueParameters)
 
 		// @return
 		if (owner.hasDeclaredReturnType()) {
@@ -109,42 +104,21 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			appendDoc(prefix, PARAM, it.itsType)
 		}
 
+		val primaryConstructorParameters = owner.primaryConstructorParameters
 		// @param
-		if (owner.hasPrimaryConstructor()) {
-			val parameters = owner.getPrimaryConstructorParameterList()!!.parameters
-			// @param
-			for (it in parameters) {
-				val param = it.nameIdentifier?.text
-				val type = it.itsType
-				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-					appendDoc(prefix, PARAM, param, type)
-				}
-			}
-		}
+		appendDoc(prefix, PARAM, primaryConstructorParameters)
 
 		// order: 1. primary Parameters -> @property
-		for (it in owner.primaryConstructorParameters) {
+		for (it in primaryConstructorParameters) {
 			// is property
-			if (it.hasValOrVar()) {
-				val param = it.nameIdentifier?.text
-				val type = it.itsType
-				if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-					// add a space before or after is no used
-					appendDoc(prefix, PROPERTY, param, type)
-				}
-			}
+			if (it.hasValOrVar()) appendDoc(prefix, PROPERTY, it)
+			else appendDoc(prefix, PARAM, it)
 		}
 
 		// order: 2. class fields -> @property
-		if (Settings.alwaysShowClassFieldProperty)
-			for (it in owner.getProperties()) {
-				val param = it.nameIdentifier?.text
-				val type = it.itsType
-				if (!param.isNullOrEmpty()) {
-					// add a space before or after is no used
-					appendDoc(prefix, PROPERTY, param, type)
-				}
-			}
+		if (Settings.alwaysShowClassFieldProperty) {
+			appendDoc(prefix, PROPERTY, owner.getProperties())
+		}
 
 		// @constructor
 		if (Settings.alwaysShowConstructor) {
@@ -154,13 +128,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 	private fun docKtConstructor(owner: KtConstructor<*>, prefix: String): String = buildString {
 		// @param
-		for (it in owner.valueParameters) {
-			val param = it.nameIdentifier?.text
-			val type = it.itsType
-			if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-				appendDoc(prefix, PARAM, param, type)
-			}
-		}
+		appendDoc(prefix, PARAM, owner.valueParameters)
 
 		// @constructor
 		if (Settings.alwaysShowConstructor) {
@@ -174,6 +142,20 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 	private fun StringBuilder.appendDoc(prefix: String, vararg strs: String?) {
 		strs.joinTo(this, " ", prefix, LF)
+	}
+
+	private fun StringBuilder.appendDoc(prefix: String, token: String, it: KtCallableDeclaration) {
+		val param = it.name
+		val type = it.itsType
+		if (!param.isNullOrEmpty() && type.isNotEmpty()) {
+			appendDoc(prefix, token, param, type)
+		}
+	}
+
+	private fun StringBuilder.appendDoc(prefix: String, token: String, valueParameters: List<KtCallableDeclaration>) {
+		for (it in valueParameters) {
+			appendDoc(prefix, token, it)
+		}
 	}
 
 }
