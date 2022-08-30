@@ -5,6 +5,8 @@ import com.github.bin.bugktdoc.BugKtDocBundle
 import com.github.bin.bugktdoc.Settings
 import com.intellij.openapi.options.Configurable
 import com.intellij.ui.components.JBCheckBox
+import javax.swing.JComponent
+import javax.swing.JPanel
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KMutableProperty1
 
@@ -57,10 +59,15 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 				this::funThrows.init(DocSetting::funThrows),
 			),
 			this::useClassDoc.init(DocSetting::useClassDoc).bind(
-				this::alwaysShowClassFieldProperty.init(DocSetting::alwaysShowClassFieldProperty)
+				this::classGeneric.init(DocSetting::classGeneric),
+				this::classParam.init(DocSetting::classParam),
+				this::classProperty.init(DocSetting::classProperty),
+				this::classFieldProperty.init(DocSetting::classFieldProperty),
+				this::classConstructor.init(DocSetting::classConstructor),
 			),
 			this::useConstructorDoc.init(DocSetting::useConstructorDoc).bind(
-				this::alwaysShowConstructor.init(DocSetting::alwaysShowConstructor)
+				this::constructorParam.init(DocSetting::constructorParam),
+				this::constructorConstructor.init(DocSetting::constructorConstructor),
 			),
 		)
 	}
@@ -85,5 +92,33 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 		reset()
 	}
 
-	override fun createComponent() = panel!!
+	override fun createComponent(): JPanel? {
+		initComponents()
+		return panel
+	}
+
+	override fun getPreferredFocusedComponent(): JComponent? {
+		return useDoc
+	}
+
+	override fun disposeUIResources() {
+		panel = null
+		useDoc = null
+		useFunctionDoc = null
+		funContext = null
+		funReceiver = null
+		funReturn = null
+		alwaysShowUnitReturnType = null
+		funThrows = null
+		useClassDoc = null
+		classGeneric = null
+		classParam = null
+		classProperty = null
+		classFieldProperty = null
+		classConstructor = null
+		useConstructorDoc = null
+		constructorParam = null
+		constructorConstructor = null
+	}
+
 }

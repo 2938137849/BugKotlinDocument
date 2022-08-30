@@ -27,13 +27,11 @@ interface KtTypeUtil {
 	val KtTypeParameter.itsType: String
 		get() {
 			return buildString {
-				append(nameAsSafeName)
 				extendsBound?.let {
 					if (variance != Variance.INVARIANT) {
-						append(' ')
 						append(variance.label)
+						append(' ')
 					}
-					append(' ')
 					append(it.itsType)
 				}
 			}

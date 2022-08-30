@@ -8,7 +8,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
 			"$columnCount": 1
-			"$rowCount": 16
+			"$rowCount": 21
 			"hGap": 4
 		} ) {
 			name: "panel"
@@ -121,16 +121,65 @@ new FormModel {
 				"row": 9
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "alwaysShowClassFieldProperty"
+				name: "bCheckBox5"
+				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.generic@param" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "classGeneric"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 10
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox6"
+				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@param" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "classParam"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 11
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox7"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@property" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "classProperty"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 12
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "bCheckBox8"
+				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.field@property" )
+				auxiliary() {
+					"JavaCodeGenerator.variableName": "classFieldProperty"
+					"JavaCodeGenerator.customCreate": true
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 13
+				"anchor": 8
+				"indent": 4
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "alwaysShowClassFieldProperty"
+				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableName": "classConstructor"
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 4
-				"row": 10
+				"row": 14
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useConstructorDoc"
@@ -142,7 +191,19 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
-				"row": 12
+				"row": 16
+			} )
+			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
+				name: "alwaysShowConstructor2"
+				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@param" )
+				auxiliary() {
+					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableName": "constructorParam"
+				}
+			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+				"row": 17
+				"anchor": 8
+				"indent": 4
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowConstructor"
@@ -150,9 +211,10 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableName": "constructorConstructor"
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 13
+				"row": 18
 				"anchor": 8
 				"indent": 4
 			} )
@@ -162,11 +224,11 @@ new FormModel {
 					"JavaCodeGenerator.variableLocal": true
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 14
+				"row": 19
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
-			"size": new java.awt.Dimension( 785, 675 )
+			"size": new java.awt.Dimension( 805, 595 )
 		} )
 	}
 }

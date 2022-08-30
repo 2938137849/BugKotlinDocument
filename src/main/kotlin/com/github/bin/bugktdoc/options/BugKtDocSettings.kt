@@ -19,8 +19,13 @@ data class BugKtDocSettings(
 	var funThrows: Boolean = true,
 	// --separator--
 	var useClassDoc: Boolean = true,
-	var alwaysShowClassFieldProperty: Boolean = true,
+	var classGeneric: Boolean = true,
+	var classParam: Boolean = true,
+	var classProperty: Boolean = true,
+	var classFieldProperty: Boolean = true,
+	var classConstructor: Boolean = true,
 	// --separator--
 	var useConstructorDoc: Boolean = true,
-	var alwaysShowConstructor: Boolean = true,
+	var constructorParam: Boolean = true,
+	var constructorConstructor: Boolean = true,
 )

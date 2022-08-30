@@ -93,6 +93,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 		// @throws
 		if (Settings.funThrows) {
+			// TODO: need a better comply
 			val annotationEntries = PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
 			annotationEntries.firstOrNull {
 				it.calleeExpression?.text == "Throws"
@@ -107,38 +108,42 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	private fun docKtClass(owner: KtClass, prefix: String): String = buildString {
-		for (it in owner.typeParameters) {
-			appendDoc(prefix, PARAM, it.itsType)
+		if (Settings.classGeneric) {
+			for (it in owner.typeParameters) {
+				appendDoc(prefix, PARAM, it.name, it.itsType)
+			}
 		}
 
 		val primaryConstructorParameters = owner.primaryConstructorParameters
 		// @param
-		appendDoc(prefix, PARAM, primaryConstructorParameters)
+		if (Settings.classParam) {
+			appendDoc(prefix, PARAM, primaryConstructorParameters)
+		}
 
 		// order: 1. primary Parameters -> @property
-		for (it in primaryConstructorParameters) {
-			// is property
-			if (it.hasValOrVar()) appendDoc(prefix, PROPERTY, it)
-			else appendDoc(prefix, PARAM, it)
+		if (Settings.classProperty) {
+			appendDoc(prefix, PROPERTY, primaryConstructorParameters.filter { it.hasValOrVar() })
 		}
 
 		// order: 2. class fields -> @property
-		if (Settings.alwaysShowClassFieldProperty) {
+		if (Settings.classFieldProperty) {
 			appendDoc(prefix, PROPERTY, owner.getProperties())
 		}
 
 		// @constructor
-		if (Settings.alwaysShowConstructor) {
+		if (Settings.classConstructor) {
 			appendDoc(prefix, CONSTRUCTOR)
 		}
 	}
 
 	private fun docKtConstructor(owner: KtConstructor<*>, prefix: String): String = buildString {
 		// @param
-		appendDoc(prefix, PARAM, owner.valueParameters)
+		if (Settings.constructorParam) {
+			appendDoc(prefix, PARAM, owner.valueParameters)
+		}
 
 		// @constructor
-		if (Settings.alwaysShowConstructor) {
+		if (Settings.constructorConstructor) {
 			appendDoc(prefix, CONSTRUCTOR)
 		}
 	}
@@ -159,7 +164,9 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 	}
 
-	private fun StringBuilder.appendDoc(prefix: String, token: String, valueParameters: List<KtCallableDeclaration>) {
+	private fun StringBuilder.appendDoc(
+		prefix: String, token: String, valueParameters: Iterable<KtCallableDeclaration>,
+	) {
 		for (it in valueParameters) {
 			appendDoc(prefix, token, it)
 		}
