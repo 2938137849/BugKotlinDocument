@@ -6,9 +6,6 @@ new FormModel {
 	"i18n.keyPrefix": "default"
 	contentType: "form/swing"
 	root: new FormRoot {
-		auxiliary() {
-			"JavaCodeGenerator.defaultVariableLocal": true
-		}
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
 			"$columnCount": 1
 			"$rowCount": 21
@@ -25,11 +22,11 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"anchor": 9
+				"anchor": 8
 			} )
 			add( new FormComponent( "javax.swing.JSeparator" ) {
 				name: "separator1"
@@ -45,8 +42,8 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
@@ -58,8 +55,9 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@context" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.@context.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableName": "funContext"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
+					"JavaCodeGenerator.variableName": "funContext"
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 3
@@ -73,6 +71,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funReceiver"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 4
@@ -86,6 +85,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funReturn"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 5
@@ -97,8 +97,8 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.returnUnit" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.returnUnit.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
@@ -112,6 +112,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funThrows"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 7
@@ -123,8 +124,8 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
@@ -138,6 +139,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classGeneric"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 10
@@ -151,6 +153,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classParam"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 11
@@ -164,6 +167,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classProperty"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 12
@@ -177,6 +181,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classFieldProperty"
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 13
@@ -188,9 +193,9 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
 					"JavaCodeGenerator.variableName": "classConstructor"
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
@@ -202,8 +207,8 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
@@ -217,6 +222,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.customCreate": true
 					"JavaCodeGenerator.variableName": "constructorParam"
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 17
@@ -228,9 +234,9 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor.toolTip" )
 				auxiliary() {
-					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
 					"JavaCodeGenerator.variableName": "constructorConstructor"
+					"JavaCodeGenerator.variableLocal": false
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 18
@@ -247,7 +253,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
-			"size": new java.awt.Dimension( 805, 595 )
+			"size": new java.awt.Dimension( 680, 570 )
 		} )
 	}
 }

@@ -35,7 +35,7 @@ public class BugKtDocConfigureForm {
 		{
 			panel.setLayout(new GridLayoutManager(21, 1, new Insets(0, 0, 0, 0), 4, -1));
 			panel.add(useDoc, new GridConstraints(0, 0, 1, 1,
-				GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE,
+				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null));
