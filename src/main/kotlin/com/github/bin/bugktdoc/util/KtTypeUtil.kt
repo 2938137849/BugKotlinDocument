@@ -37,9 +37,9 @@ interface KtTypeUtil {
 			}
 		}
 
-	val KtContextReceiver.itsType: String?
+	val KtContextReceiver.itsType: String
 		get() {
-			return typeReference()?.itsType
+			return typeReference()?.itsType ?: ""
 		}
 
 	val KtCallableDeclaration.itsType: String
@@ -59,6 +59,9 @@ interface KtTypeUtil {
 			}
 			else {
 				buildString {
+					if (isMarkedNullable) {
+						append('(')
+					}
 					var start = contextFunctionTypeParamsCount()
 					if (start > 0) {
 						arguments.subList(0, start).joinTo(this, ", ", "context(", ")") {
@@ -73,6 +76,9 @@ interface KtTypeUtil {
 						it.itsType
 					}
 					append(arguments.last().itsType)
+					if (isMarkedNullable) {
+						append(")?")
+					}
 				}
 			}
 		}
