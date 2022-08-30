@@ -6,6 +6,9 @@ new FormModel {
 	"i18n.keyPrefix": "default"
 	contentType: "form/swing"
 	root: new FormRoot {
+		auxiliary() {
+			"JavaCodeGenerator.defaultVariableLocal": true
+		}
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
 			"$columnCount": 1
 			"$rowCount": 21
@@ -15,6 +18,7 @@ new FormModel {
 			auxiliary() {
 				"JavaCodeGenerator.variableName": "panel"
 				"JavaCodeGenerator.variableModifiers": 4
+				"JavaCodeGenerator.variableLocal": false
 			}
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useDoc"
@@ -39,6 +43,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useFunctionDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
@@ -51,6 +56,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox1"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@context" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.@context.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funContext"
 					"JavaCodeGenerator.customCreate": true
@@ -63,6 +69,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox2"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@receiver" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.@receiver.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funReceiver"
 					"JavaCodeGenerator.customCreate": true
@@ -75,6 +82,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox4"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@return" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.@return.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funReturn"
 					"JavaCodeGenerator.customCreate": true
@@ -87,6 +95,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowUnitReturnType"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.returnUnit" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.returnUnit.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
@@ -99,6 +108,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox3"
 				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@throws" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.@throws.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "funThrows"
 					"JavaCodeGenerator.customCreate": true
@@ -111,6 +121,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useClassDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
@@ -123,6 +134,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox5"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.generic@param" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.generic@param.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classGeneric"
 					"JavaCodeGenerator.customCreate": true
@@ -135,6 +147,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox6"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@param" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.@param.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classParam"
 					"JavaCodeGenerator.customCreate": true
@@ -147,6 +160,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox7"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@property" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.@property.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classProperty"
 					"JavaCodeGenerator.customCreate": true
@@ -159,6 +173,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "bCheckBox8"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.field@property" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.field@property.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableName": "classFieldProperty"
 					"JavaCodeGenerator.customCreate": true
@@ -171,6 +186,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowClassFieldProperty"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
@@ -184,6 +200,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "useConstructorDoc"
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true
@@ -196,6 +213,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowConstructor2"
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@param" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@param.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.customCreate": true
 					"JavaCodeGenerator.variableName": "constructorParam"
@@ -208,6 +226,7 @@ new FormModel {
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "alwaysShowConstructor"
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor.toolTip" )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 4
 					"JavaCodeGenerator.customCreate": true

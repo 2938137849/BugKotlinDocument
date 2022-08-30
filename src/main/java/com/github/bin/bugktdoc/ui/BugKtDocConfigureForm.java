@@ -136,20 +136,35 @@ public class BugKtDocConfigureForm {
 		useDoc.setText(bundle.getString("bugktdoc.options.use"));
 		useDoc.setToolTipText(bundle.getString("bugktdoc.options.use.toolTip"));
 		useFunctionDoc.setText(bundle.getString("bugktdoc.options.use.functionDoc"));
+		useFunctionDoc.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.toolTip"));
 		funContext.setText(bundle.getString("bugktdoc.options.use.functionDoc.@context"));
+		funContext.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.@context.toolTip"));
 		funReceiver.setText(bundle.getString("bugktdoc.options.use.functionDoc.@receiver"));
+		funReceiver.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.@receiver.toolTip"));
 		funReturn.setText(bundle.getString("bugktdoc.options.use.functionDoc.@return"));
+		funReturn.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.@return.toolTip"));
 		alwaysShowUnitReturnType.setText(bundle.getString("bugktdoc.options.use.functionDoc.returnUnit"));
+		alwaysShowUnitReturnType.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.returnUnit.toolTip"));
 		funThrows.setText(bundle.getString("bugktdoc.options.use.functionDoc.@throws"));
+		funThrows.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.@throws.toolTip"));
 		useClassDoc.setText(bundle.getString("bugktdoc.options.use.classDoc"));
+		useClassDoc.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.toolTip"));
 		classGeneric.setText(bundle.getString("bugktdoc.options.use.classDoc.generic@param"));
+		classGeneric.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.generic@param.toolTip"));
 		classParam.setText(bundle.getString("bugktdoc.options.use.classDoc.@param"));
+		classParam.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.@param.toolTip"));
 		classProperty.setText(bundle.getString("bugktdoc.options.use.classDoc.@property"));
+		classProperty.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.@property.toolTip"));
 		classFieldProperty.setText(bundle.getString("bugktdoc.options.use.classDoc.field@property"));
+		classFieldProperty.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.field@property.toolTip"));
 		classConstructor.setText(bundle.getString("bugktdoc.options.use.classDoc.@constructor"));
+		classConstructor.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.@constructor.toolTip"));
 		useConstructorDoc.setText(bundle.getString("bugktdoc.options.use.constructorDoc"));
+		useConstructorDoc.setToolTipText(bundle.getString("bugktdoc.options.use.constructorDoc.toolTip"));
 		constructorParam.setText(bundle.getString("bugktdoc.options.use.constructorDoc.@param"));
+		constructorParam.setToolTipText(bundle.getString("bugktdoc.options.use.constructorDoc.@param.toolTip"));
 		constructorConstructor.setText(bundle.getString("bugktdoc.options.use.constructorDoc.@constructor"));
+		constructorConstructor.setToolTipText(bundle.getString("bugktdoc.options.use.constructorDoc.@constructor.toolTip"));
 		// JFormDesigner - End of component i18n initialization  //GEN-END:initI18n
 	}
 

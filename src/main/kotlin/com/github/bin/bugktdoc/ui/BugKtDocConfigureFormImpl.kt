@@ -1,22 +1,23 @@
 package com.github.bin.bugktdoc.ui
 
-import com.github.bin.bugktdoc.options.BugKtDocSettings as DocSetting
 import com.github.bin.bugktdoc.BugKtDocBundle
 import com.github.bin.bugktdoc.Settings
 import com.intellij.openapi.options.Configurable
 import com.intellij.ui.components.JBCheckBox
+import java.awt.Container
 import javax.swing.JComponent
 import javax.swing.JPanel
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KMutableProperty1
+import com.github.bin.bugktdoc.options.BugKtDocSettings as DocSetting
 
 /**
  * @author bin
  * @date 2018/4/2
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
-	private lateinit var local: DocSetting
-	private fun KMutableProperty0<JBCheckBox>.init(mapping: KMutableProperty1<DocSetting, Boolean>): JBCheckBox {
+	private var local: DocSetting = Settings.copy()
+	private fun KMutableProperty0<JBCheckBox?>.init(mapping: KMutableProperty1<DocSetting, Boolean>): JBCheckBox {
 		val box = JBCheckBox()
 		set(box)
 		box.isSelected = mapping.get(local)
@@ -48,7 +49,6 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 	}
 
 	override fun createUIComponents() {
-		reset()
 		this::useDoc.init(DocSetting::useDoc).bind(
 			this::useFunctionDoc.init(DocSetting::useFunctionDoc).bind(
 				this::funContext.init(DocSetting::funContext),
@@ -97,28 +97,36 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 		return panel
 	}
 
-	override fun getPreferredFocusedComponent(): JComponent? {
-		return useDoc
-	}
+	override fun getPreferredFocusedComponent(): JComponent? = useDoc
 
 	override fun disposeUIResources() {
-		panel = null
-		useDoc = null
-		useFunctionDoc = null
-		funContext = null
-		funReceiver = null
-		funReturn = null
-		alwaysShowUnitReturnType = null
-		funThrows = null
-		useClassDoc = null
-		classGeneric = null
-		classParam = null
-		classProperty = null
-		classFieldProperty = null
-		classConstructor = null
-		useConstructorDoc = null
-		constructorParam = null
-		constructorConstructor = null
+		fun <T : Container> dispose(vararg boxes: KMutableProperty0<T?>) {
+			for (box in boxes) {
+				box.get()?.run {
+					removeAll()
+				}
+				box.set(null)
+			}
+		}
+		dispose(this::panel)
+		dispose(
+			this::useDoc,
+			this::useFunctionDoc,
+			this::funContext,
+			this::funReceiver,
+			this::funReturn,
+			this::alwaysShowUnitReturnType,
+			this::funThrows,
+			this::useClassDoc,
+			this::classGeneric,
+			this::classParam,
+			this::classProperty,
+			this::classFieldProperty,
+			this::classConstructor,
+			this::useConstructorDoc,
+			this::constructorParam,
+			this::constructorConstructor,
+		)
 	}
 
 }
