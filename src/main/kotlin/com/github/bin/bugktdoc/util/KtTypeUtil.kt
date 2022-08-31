@@ -1,5 +1,6 @@
 package com.github.bin.bugktdoc.util
 
+import com.github.bin.bugktdoc.Settings
 import org.jetbrains.kotlin.builtins.*
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
 import org.jetbrains.kotlin.psi.*
@@ -54,11 +55,14 @@ interface KtTypeUtil {
 
 	val KotlinType.itsType: String
 		get() {
-			return if (!isBuiltinFunctionalType) {
+			return if (Settings.showBuiltinType ||!isBuiltinFunctionalType) {
 				toString()
 			}
 			else {
 				buildString {
+					if (isSuspendFunctionType) {
+						append("suspend ")
+					}
 					if (isMarkedNullable) {
 						append('(')
 					}

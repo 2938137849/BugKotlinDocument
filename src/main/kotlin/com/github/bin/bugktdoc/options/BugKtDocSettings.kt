@@ -28,4 +28,6 @@ data class BugKtDocSettings(
 	var useConstructorDoc: Boolean = true,
 	var constructorParam: Boolean = true,
 	var constructorConstructor: Boolean = true,
+	// --separator--
+	var showBuiltinType: Boolean = false,
 )

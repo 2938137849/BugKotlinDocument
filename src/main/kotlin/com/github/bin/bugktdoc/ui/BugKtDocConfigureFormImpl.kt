@@ -17,24 +17,22 @@ import com.github.bin.bugktdoc.options.BugKtDocSettings as DocSetting
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 	private var local: DocSetting = Settings.copy()
-	private fun KMutableProperty0<JBCheckBox?>.init(mapping: KMutableProperty1<DocSetting, Boolean>): JBCheckBox {
-		val box = JBCheckBox()
-		set(box)
-		box.isSelected = mapping.get(local)
-		box.addActionListener {
+	private fun JBCheckBox.init(mapping: KMutableProperty1<DocSetting, Boolean>): JBCheckBox {
+		isSelected = mapping.get(local)
+		addActionListener {
 			mapping.set(local, (it.source as JBCheckBox).isSelected)
 		}
-		return box
+		return this
 	}
 
-	private fun setEnabled(it: JBCheckBox, boxes: Array<out JBCheckBox>) {
+	private fun setEnabled(it: JBCheckBox, boxes: Array<out JComponent>) {
 		val selected = it.run { isEnabled && isSelected }
 		for (box in boxes) {
 			box.isEnabled = selected
 		}
 	}
 
-	private fun JBCheckBox.bind(vararg boxes: JBCheckBox): JBCheckBox {
+	private fun JBCheckBox.bind(vararg boxes: JComponent): JBCheckBox {
 		// for isSelected event
 		addActionListener {
 			setEnabled(it.source as JBCheckBox, boxes)
@@ -48,27 +46,31 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 		return this
 	}
 
-	override fun createUIComponents() {
-		this::useDoc.init(DocSetting::useDoc).bind(
-			this::useFunctionDoc.init(DocSetting::useFunctionDoc).bind(
-				this::funContext.init(DocSetting::funContext),
-				this::funReceiver.init(DocSetting::funReceiver),
-				this::funReturn.init(DocSetting::funReturn).bind(
-					this::alwaysShowUnitReturnType.init(DocSetting::alwaysShowUnitReturnType),
+	override fun initComponents() {
+		super.initComponents()
+		useDoc.init(DocSetting::useDoc).bind(
+			separator1,
+			useFunctionDoc.init(DocSetting::useFunctionDoc).bind(
+				funContext.init(DocSetting::funContext),
+				funReceiver.init(DocSetting::funReceiver),
+				funReturn.init(DocSetting::funReturn).bind(
+					alwaysShowUnitReturnType.init(DocSetting::alwaysShowUnitReturnType),
 				),
-				this::funThrows.init(DocSetting::funThrows),
+				funThrows.init(DocSetting::funThrows),
 			),
-			this::useClassDoc.init(DocSetting::useClassDoc).bind(
-				this::classGeneric.init(DocSetting::classGeneric),
-				this::classParam.init(DocSetting::classParam),
-				this::classProperty.init(DocSetting::classProperty),
-				this::classFieldProperty.init(DocSetting::classFieldProperty),
-				this::classConstructor.init(DocSetting::classConstructor),
+			useClassDoc.init(DocSetting::useClassDoc).bind(
+				classGeneric.init(DocSetting::classGeneric),
+				classParam.init(DocSetting::classParam),
+				classProperty.init(DocSetting::classProperty),
+				classFieldProperty.init(DocSetting::classFieldProperty),
+				classConstructor.init(DocSetting::classConstructor),
 			),
-			this::useConstructorDoc.init(DocSetting::useConstructorDoc).bind(
-				this::constructorParam.init(DocSetting::constructorParam),
-				this::constructorConstructor.init(DocSetting::constructorConstructor),
+			useConstructorDoc.init(DocSetting::useConstructorDoc).bind(
+				constructorParam.init(DocSetting::constructorParam),
+				constructorConstructor.init(DocSetting::constructorConstructor),
 			),
+			separator2,
+			showBuiltinType.init(DocSetting::showBuiltinType)
 		)
 	}
 
