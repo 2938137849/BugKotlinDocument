@@ -60,17 +60,17 @@ interface KtTypeUtil {
 			}
 			else {
 				buildString {
-					if (isSuspendFunctionType) {
-						append("suspend ")
-					}
 					if (isMarkedNullable) {
 						append('(')
 					}
 					var start = contextFunctionTypeParamsCount()
 					if (start > 0) {
-						arguments.subList(0, start).joinTo(this, ", ", "context(", ")") {
+						arguments.subList(0, start).joinTo(this, ", ", "context(", ") ") {
 							it.itsType
 						}
+					}
+					if (isSuspendFunctionType) {
+						append("suspend ")
 					}
 					if (isBuiltinExtensionFunctionalType) {
 						append(arguments[start++].itsType)
