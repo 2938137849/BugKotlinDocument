@@ -49,17 +49,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				if (!Settings.useFunctionDoc) null
 				else docKtNamedFunction(owner, prefix)
 			}
-
 			is KtClass -> {
 				if (!Settings.useClassDoc) null
 				else docKtClass(owner, prefix)
 			}
-
 			is KtConstructor<*> -> {
 				if (!Settings.useConstructorDoc) null
 				else docKtConstructor(owner, prefix)
 			}
-
 			else -> null
 		}
 	}
@@ -67,8 +64,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
 		(contextElement as? KDoc)?.owner?.docComment ?: contextElement
 
-	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
-		val type = owner.resolveToDescriptorIfAny() ?: return ""
+	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String? = buildString {
+		val type = owner.resolveToDescriptorIfAny() ?: return null
 
 		if (Settings.funGeneric) {
 			for (it in type.typeParameters) {
@@ -122,8 +119,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 	}
 
-	private fun docKtClass(owner: KtClass, prefix: String): String = buildString {
-		val type = owner.resolveToDescriptorIfAny() ?: return ""
+	private fun docKtClass(owner: KtClass, prefix: String): String? = buildString {
+		val type = owner.resolveToDescriptorIfAny() ?: return null
 
 		if (Settings.classGeneric) {
 			for (parameter in type.declaredTypeParameters) {
@@ -160,8 +157,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 	}
 
-	private fun docKtConstructor(owner: KtConstructor<*>, prefix: String): String = buildString {
-		val type = owner.resolveToDescriptorIfAny() as? ConstructorDescriptor ?: return ""
+	private fun docKtConstructor(owner: KtConstructor<*>, prefix: String): String? = buildString {
+		val type = owner.resolveToDescriptorIfAny() as? ConstructorDescriptor ?: return null
 
 		// @param
 		if (Settings.constructorParam) {
