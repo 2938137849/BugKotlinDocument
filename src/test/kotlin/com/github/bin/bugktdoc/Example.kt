@@ -38,7 +38,7 @@ class Example<A, B : CharSequence>(
 	 * @context String.() -> Int
 	 * @context Result<Int>
 	 * @receiver Int.Companion
-	 * @param block context(Int)Pair<String, Long>.(Short) -> List<Map<*, Float>>
+	 * @param block context(Int) Pair<String, Long>.(Short) -> List<Map<*, Float>>
 	 * @return Int.(Pair<String, Long>, Short) -> List<Map<*, Float>>
 	 */
 	context(String.() -> Int, p@Result<Int>)

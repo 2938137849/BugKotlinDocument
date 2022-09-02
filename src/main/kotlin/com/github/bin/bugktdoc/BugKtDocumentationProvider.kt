@@ -11,9 +11,11 @@ import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.kotlin.idea.caches.resolve.resolveToDescriptorIfAny
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
-import org.jetbrains.kotlin.nj2k.postProcessing.type
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.types.KotlinType
+import org.jetbrains.kotlin.types.starProjectionType
 
 /**
  * @author zxj5470
@@ -40,14 +42,17 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				if (!Settings.useFunctionDoc) null
 				else docKtNamedFunction(owner, prefix)
 			}
+
 			is KtClass -> {
 				if (!Settings.useClassDoc) null
 				else docKtClass(owner, prefix)
 			}
+
 			is KtConstructor<*> -> {
 				if (!Settings.useConstructorDoc) null
 				else docKtConstructor(owner, prefix)
 			}
+
 			else -> null
 		}
 	}
@@ -56,38 +61,37 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		(contextElement as? KDoc)?.owner?.docComment ?: contextElement
 
 	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
+		val type = owner.resolveToDescriptorIfAny() ?: return@buildString
+
+		for (it in type.typeParameters) {
+			appendDoc(prefix, PARAM, it.name.asString(), it.starProjectionType())
+		}
+
 		if (Settings.funContext) {
-			owner.contextReceivers.forEach {
-				appendDoc(prefix, CONTEXT_RECEIVER, it.itsType)
+			for (parameter in type.contextReceiverParameters) {
+				appendDoc(prefix, CONTEXT_RECEIVER, parameter.type)
 			}
 		}
 
 		// @receiver
 		if (Settings.funReceiver) {
-			owner.receiverTypeReference?.let {
-				appendDoc(prefix, RECEIVER, it.itsType)
+			type.extensionReceiverParameter?.let {
+				appendDoc(prefix, RECEIVER, it.type)
 			}
 		}
 
 		// @param
 		if (Settings.funParam) {
-			appendDoc(prefix, PARAM, owner.valueParameters)
+			for (parameter in type.valueParameters) {
+				appendDoc(prefix, PARAM, parameter.name.asString(), parameter.type)
+			}
 		}
 
 		// @return
 		if (Settings.funReturn) {
-			if (owner.hasDeclaredReturnType()) {
-				val type = owner.type()
-				if (type !== null)
-					appendDoc(prefix, RETURN, type.itsType)
-				else
-					appendDoc(prefix, RETURN, owner.typeReference?.itsType)
-			}
-			else owner.itsType.let {
-				if (!Settings.alwaysShowUnitReturnType)
-					if (it == "Unit")
-						return@let
-				appendDoc(prefix, RETURN, it)
+			val returnType = type.returnType!!
+			if (Settings.alwaysShowUnitReturnType || owner.hasDeclaredReturnType() || returnType.itsType != "Unit") {
+				appendDoc(prefix, RETURN, returnType)
 			}
 		}
 
@@ -154,6 +158,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 	private fun StringBuilder.appendDoc(prefix: String, vararg strs: String?) {
 		strs.joinTo(this, " ", prefix, LF)
+	}
+
+	private fun StringBuilder.appendDoc(prefix: String, type: String, ktType: KotlinType) {
+		append(prefix).append(type).append(' ').append(ktType.itsType).appendLine()
+	}
+
+	private fun StringBuilder.appendDoc(prefix: String, type: String, name: String, ktType: KotlinType) {
+		append(prefix).append(type).append(' ').append(name).append(' ').append(ktType.itsType).appendLine()
 	}
 
 	private fun StringBuilder.appendDoc(prefix: String, token: String, it: KtCallableDeclaration) {

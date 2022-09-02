@@ -38,11 +38,6 @@ interface KtTypeUtil {
 			}
 		}
 
-	val KtContextReceiver.itsType: String
-		get() {
-			return typeReference()?.itsType ?: ""
-		}
-
 	val KtCallableDeclaration.itsType: String
 		get() {
 			return SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).itsType
