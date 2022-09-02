@@ -9,7 +9,7 @@ import com.intellij.lang.documentation.DocumentationProviderEx
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.builtins.isBuiltinFunctionalTypeOrSubtype
+import org.jetbrains.kotlin.builtins.isBuiltinFunctionalType
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.resolveToDescriptorIfAny
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -189,7 +189,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	private fun StringBuilder.appendDoc(type: KotlinType): StringBuilder {
-		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalTypeOrSubtype || type.arguments.isEmpty()) {
+		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalType || type.arguments.isEmpty()) {
 			append(descriptorRenderer.renderType(type))
 		}
 		else {
