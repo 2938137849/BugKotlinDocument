@@ -11,6 +11,7 @@ data class BugKtDocSettings(
 	var useDoc: Boolean = true,
 	// --separator--
 	var useFunctionDoc: Boolean = true,
+	var funGeneric: Boolean = true,
 	var funContext: Boolean = true,
 	var funReceiver: Boolean = true,
 	var funParam: Boolean = true,

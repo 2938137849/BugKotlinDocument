@@ -63,8 +63,10 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
 		val type = owner.resolveToDescriptorIfAny() ?: return@buildString
 
-		for (it in type.typeParameters) {
-			appendDoc(prefix, PARAM, it.name.asString(), it.starProjectionType())
+		if (Settings.funGeneric) {
+			for (it in type.typeParameters) {
+				appendDoc(prefix, PARAM, it.name.asString(), it.starProjectionType())
+			}
 		}
 
 		if (Settings.funContext) {

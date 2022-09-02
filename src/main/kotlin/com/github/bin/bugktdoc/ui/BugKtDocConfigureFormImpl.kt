@@ -51,6 +51,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 		useDoc.init(DocSetting::useDoc).bind(
 			separator1,
 			useFunctionDoc.init(DocSetting::useFunctionDoc).bind(
+				funGeneric.init(DocSetting::funGeneric),
 				funContext.init(DocSetting::funContext),
 				funReceiver.init(DocSetting::funReceiver),
 				funReturn.init(DocSetting::funReturn).bind(
