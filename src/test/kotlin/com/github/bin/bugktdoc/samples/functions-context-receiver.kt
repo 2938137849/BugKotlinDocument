@@ -10,7 +10,7 @@ package com.github.bin.bugktdoc.samples
 /**
  *
  * @context String
- * @context i@ Int
+ * @context Int
  * @param block () -> Unit
  * @return () -> Unit
  */

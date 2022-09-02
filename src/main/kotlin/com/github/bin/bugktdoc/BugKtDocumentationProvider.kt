@@ -101,7 +101,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			val returnType = type.returnType!!
 			if (Settings.alwaysShowUnitReturnType
 				|| owner.hasDeclaredReturnType()
-				|| !returnType.isMarkedNullable
+				|| returnType.isMarkedNullable
 				|| returnType.toString() != "Unit"
 			) {
 				appendDoc(prefix, RETURN, returnType)

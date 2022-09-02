@@ -9,8 +9,9 @@ package com.github.bin.bugktdoc.samples
 
 /**
  *
- * @param T
- * @property strings Array<out String>
+ * @param T Any?
+ * @param t String
+ * @param strings Array<out String>
  */
 class AFieldDisabled<T>(t: String, private vararg val strings: String) {
 	/**

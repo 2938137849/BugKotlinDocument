@@ -10,12 +10,9 @@ package com.github.bin.bugktdoc.samples
 
 /**
  *
- * @param T in Cloneable
+ * @param T Cloneable
  * @param t String
  * @param strings Array<out String>
- * @property strings Array<out String>
- * @property aInt Int
- * @property bInt Int
  * @constructor
  */
 class ADisable<in T : Cloneable>(t: String, private vararg val strings: String) {

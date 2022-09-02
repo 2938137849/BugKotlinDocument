@@ -16,9 +16,9 @@ typealias F<T> = () -> T
  */
 abstract class IF {
 	/**
-	 * 
+	 *
 	 * @param T Any?
-	 * @param R F<*> /* = Function0<*> */
+	 * @param R F<*>
 	 * @receiver R?
 	 * @param f R
 	 * @return R?
@@ -32,7 +32,7 @@ class FI : IF() {
 	/**
 	 *
 	 * @param T Any?
-	 * @param R () -> Any?
+	 * @param R F<*>
 	 * @receiver R?
 	 * @param f R
 	 * @return R
