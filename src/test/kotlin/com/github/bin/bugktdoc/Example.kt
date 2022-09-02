@@ -4,11 +4,10 @@ package com.github.bin.bugktdoc
 
 /**
  *
- * @param A
+ * @param A Any?
  * @param B CharSequence
- * @param a (context(Int)Pair<String, *>?.() -> Int)?
+ * @param a (context(Int) Pair<String, *>?.() -> Int)?
  * @param b Result<Int>?
- * @property b Result<Int>?
  * @property c String?
  * @constructor
  */
@@ -20,7 +19,7 @@ class Example<A, B : CharSequence>(
 
 	/**
 	 *
-	 * @param a (context(Int)Pair<String, *>?.() -> Int)?
+	 * @param a (context(Int) Pair<String, *>?.() -> Int)?
 	 * @param b Result<Int>?
 	 * @param c String
 	 * @constructor
@@ -35,17 +34,25 @@ class Example<A, B : CharSequence>(
 
 	/**
 	 *
-	 * @context String.() -> Int
+	 * @context Function1<String, Int>
 	 * @context Result<Int>
 	 * @receiver Int.Companion
-	 * @param block context(Int) Pair<String, Long>.(Short) -> List<Map<*, Float>>
-	 * @return Int.(Pair<String, Long>, Short) -> List<Map<*, Float>>
+	 * @param block Function3<Int, Pair<String, Long>, Short, List<Map<*, Float>>>
+	 * @return Function3<Int, Pair<String, Long>, Short, List<Map<*, Float>>>
+	 * @throws NumberFormatException
+	 * @throws NullPointerException
 	 */
 	context(String.() -> Int, p@Result<Int>)
-		@kotlin.jvm.Throws(NumberFormatException::class, NullPointerException::class)
+			@kotlin.jvm.Throws(NumberFormatException::class, NullPointerException::class)
 	fun Int.Companion.function(
 		block: context(Int)Pair<String, Long>.(Short) -> List<Map<*, Float>>,
 	): Int.(Pair<String, Long>, Short) -> List<Map<*, Float>> {
 		return block
 	}
+
+	/**
+	 * 
+	 * @return Unit?
+	 */
+	fun nullOrUnit() = if (true) null else Unit
 }

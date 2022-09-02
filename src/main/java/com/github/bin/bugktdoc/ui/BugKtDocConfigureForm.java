@@ -37,7 +37,6 @@ public class BugKtDocConfigureForm {
 		classGeneric = new JBCheckBox();
 		classParam = new JBCheckBox();
 		classProperty = new JBCheckBox();
-		classFieldProperty = new JBCheckBox();
 		classConstructor = new JBCheckBox();
 		separator4 = new JSeparator();
 		useConstructorDoc = new JBCheckBox();
@@ -49,7 +48,7 @@ public class BugKtDocConfigureForm {
 
 		//======== panel ========
 		{
-			panel.setLayout(new GridLayoutManager(24, 1, new Insets(0, 0, 0, 0), 4, -1));
+			panel.setLayout(new GridLayoutManager(23, 1, new Insets(0, 0, 0, 0), 4, -1));
 			panel.add(useDoc, new GridConstraints(0, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -123,47 +122,42 @@ public class BugKtDocConfigureForm {
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(classFieldProperty, new GridConstraints(14, 0, 1, 1,
+			panel.add(classConstructor, new GridConstraints(14, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(classConstructor, new GridConstraints(15, 0, 1, 1,
-				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
-				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-				null, null, null, 4));
-			panel.add(separator4, new GridConstraints(16, 0, 1, 1,
+			panel.add(separator4, new GridConstraints(15, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-			panel.add(useConstructorDoc, new GridConstraints(17, 0, 1, 1,
+			panel.add(useConstructorDoc, new GridConstraints(16, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-			panel.add(constructorParam, new GridConstraints(18, 0, 1, 1,
+			panel.add(constructorParam, new GridConstraints(17, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(constructorConstructor, new GridConstraints(19, 0, 1, 1,
+			panel.add(constructorConstructor, new GridConstraints(18, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 4));
-			panel.add(separator2, new GridConstraints(20, 0, 1, 1,
+			panel.add(separator2, new GridConstraints(19, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null));
-			panel.add(showBuiltinType, new GridConstraints(21, 0, 1, 1,
+			panel.add(showBuiltinType, new GridConstraints(20, 0, 1, 1,
 				GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
 				null, null, null, 2));
-			panel.add(vSpacer1, new GridConstraints(22, 0, 1, 1,
+			panel.add(vSpacer1, new GridConstraints(21, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK,
 				GridConstraints.SIZEPOLICY_CAN_GROW | GridConstraints.SIZEPOLICY_WANT_GROW,
@@ -202,8 +196,6 @@ public class BugKtDocConfigureForm {
 		classParam.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.@param.toolTip"));
 		classProperty.setText(bundle.getString("bugktdoc.options.use.classDoc.@property"));
 		classProperty.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.@property.toolTip"));
-		classFieldProperty.setText(bundle.getString("bugktdoc.options.use.classDoc.field@property"));
-		classFieldProperty.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.field@property.toolTip"));
 		classConstructor.setText(bundle.getString("bugktdoc.options.use.classDoc.@constructor"));
 		classConstructor.setToolTipText(bundle.getString("bugktdoc.options.use.classDoc.@constructor.toolTip"));
 		useConstructorDoc.setText(bundle.getString("bugktdoc.options.use.constructorDoc"));
@@ -234,7 +226,6 @@ public class BugKtDocConfigureForm {
 	protected JBCheckBox classGeneric;
 	protected JBCheckBox classParam;
 	protected JBCheckBox classProperty;
-	protected JBCheckBox classFieldProperty;
 	protected JBCheckBox classConstructor;
 	protected JSeparator separator4;
 	protected JBCheckBox useConstructorDoc;

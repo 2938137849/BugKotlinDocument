@@ -63,7 +63,6 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 				classGeneric.init(DocSetting::classGeneric),
 				classParam.init(DocSetting::classParam),
 				classProperty.init(DocSetting::classProperty),
-				classFieldProperty.init(DocSetting::classFieldProperty),
 				classConstructor.init(DocSetting::classConstructor),
 			),
 			useConstructorDoc.init(DocSetting::useConstructorDoc).bind(
@@ -124,7 +123,6 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 			this::classGeneric,
 			this::classParam,
 			this::classProperty,
-			this::classFieldProperty,
 			this::classConstructor,
 			this::useConstructorDoc,
 			this::constructorParam,

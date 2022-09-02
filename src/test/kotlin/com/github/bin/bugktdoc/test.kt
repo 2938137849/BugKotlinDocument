@@ -10,6 +10,10 @@ import kotlin.jvm.Throws
  */
 typealias F<T> = () -> T
 
+/**
+ *
+ * @constructor
+ */
 abstract class IF {
 	/**
 	 *
@@ -26,7 +30,7 @@ abstract class IF {
 
 class FI : IF() {
 	/**
-	 * 
+	 *
 	 * @param T Any?
 	 * @param R () -> Any?
 	 * @receiver R?

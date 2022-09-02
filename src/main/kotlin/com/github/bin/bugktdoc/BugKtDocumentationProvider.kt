@@ -1,7 +1,6 @@
 package com.github.bin.bugktdoc
 
 import com.github.bin.bugktdoc.constants.*
-import com.github.bin.bugktdoc.util.KtTypeUtil
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.lang.LanguageCommenters
@@ -10,10 +9,18 @@ import com.intellij.lang.documentation.DocumentationProviderEx
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.kotlin.builtins.isBuiltinFunctionalTypeOrSubtype
+import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.resolveToDescriptorIfAny
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
-import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.name.FqName
+import org.jetbrains.kotlin.name.Name
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtConstructor
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.renderer.DescriptorRenderer
+import org.jetbrains.kotlin.resolve.constants.KClassValue
+import org.jetbrains.kotlin.resolve.descriptorUtil.module
 import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.starProjectionType
 
@@ -22,7 +29,7 @@ import org.jetbrains.kotlin.types.starProjectionType
  * @author bin
  * @date 2018/4/6
  */
-class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider, KtTypeUtil {
+class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider {
 	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment>? {
 		var current: PsiElement? = startPoint
 		while (current !== null) {
@@ -61,7 +68,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		(contextElement as? KDoc)?.owner?.docComment ?: contextElement
 
 	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String = buildString {
-		val type = owner.resolveToDescriptorIfAny() ?: return@buildString
+		val type = owner.resolveToDescriptorIfAny() ?: return ""
 
 		if (Settings.funGeneric) {
 			for (it in type.typeParameters) {
@@ -92,65 +99,81 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		// @return
 		if (Settings.funReturn) {
 			val returnType = type.returnType!!
-			if (Settings.alwaysShowUnitReturnType || owner.hasDeclaredReturnType() || returnType.itsType != "Unit") {
+			if (Settings.alwaysShowUnitReturnType
+				|| owner.hasDeclaredReturnType()
+				|| !returnType.isMarkedNullable
+				|| returnType.toString() != "Unit"
+			) {
 				appendDoc(prefix, RETURN, returnType)
 			}
 		}
 
 		// @throws
 		if (Settings.funThrows) {
-			// TODO: need a better comply
-			val annotationEntries = PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
-			annotationEntries.firstOrNull {
-				it.calleeExpression?.text == "Throws"
-			}?.run {
-				for (argument in valueArguments) {
-					val expression = (argument.getArgumentExpression() as? KtClassLiteralExpression) ?: continue
-					val it = PsiTreeUtil.findChildOfType(expression, KtNameReferenceExpression::class.java) ?: continue
-					appendDoc(prefix, THROWS, it.itsType)
+			type.annotations.findAnnotation(FqName("kotlin.jvm.Throws"))?.let {
+				it.allValueArguments[Name.identifier("exceptionClasses")]?.value as? List<*>
+			}?.let {
+				for (any in it) {
+					val kClassValue = any as? KClassValue ?: continue
+					val kotlinType = kClassValue.getArgumentType(type.module)
+					appendDoc(prefix, THROWS, kotlinType)
 				}
 			}
 		}
 	}
 
 	private fun docKtClass(owner: KtClass, prefix: String): String = buildString {
+		val type = owner.resolveToDescriptorIfAny() ?: return ""
+
 		if (Settings.classGeneric) {
-			for (it in owner.typeParameters) {
-				appendDoc(prefix, PARAM, it.name, it.itsType)
+			for (parameter in type.declaredTypeParameters) {
+				appendDoc(prefix, PARAM, parameter.name.asString(), parameter.starProjectionType())
 			}
 		}
 
-		val primaryConstructorParameters = owner.primaryConstructorParameters
 		// @param
 		if (Settings.classParam) {
-			appendDoc(prefix, PARAM, primaryConstructorParameters)
+//			appendDoc(prefix, PARAM, primaryConstructorParameters)
+			val constructorType = type.constructors.find { it.isPrimary }
+			if (constructorType != null) {
+				for (parameter in constructorType.valueParameters) {
+					appendDoc(prefix, PARAM, parameter.name.asString(), parameter.type)
+				}
+			}
 		}
 
-		// order: 1. primary Parameters -> @property
-		if (Settings.classProperty) {
-			appendDoc(prefix, PROPERTY, primaryConstructorParameters.filter { it.hasValOrVar() })
-		}
+//		// order: 1. primary Parameters -> @property
+//		if (Settings.classProperty) {
+//			appendDoc(prefix, PROPERTY, owner.primaryConstructorParameters.filter { it.hasValOrVar() })
+//		}
 
 		// order: 2. class fields -> @property
-		if (Settings.classFieldProperty) {
-			appendDoc(prefix, PROPERTY, owner.getProperties())
+		if (Settings.classProperty) {
+			for (it in owner.getProperties()) {
+				val descriptor = it.resolveToDescriptorIfAny() ?: continue
+				appendDoc(prefix, PROPERTY, descriptor.name.asString(), descriptor.type)
+			}
 		}
 
 		// @constructor
 		if (Settings.classConstructor) {
-			appendDoc(prefix, CONSTRUCTOR)
+			append(prefix).append(CONSTRUCTOR).appendLine()
 		}
 	}
 
 	private fun docKtConstructor(owner: KtConstructor<*>, prefix: String): String = buildString {
+		val type = owner.resolveToDescriptorIfAny() as? ConstructorDescriptor ?: return ""
+
 		// @param
 		if (Settings.constructorParam) {
-			appendDoc(prefix, PARAM, owner.valueParameters)
+			for (parameter in type.valueParameters) {
+				appendDoc(prefix, PARAM, parameter.name.asString(), parameter.type)
+			}
 		}
 
 		// @constructor
 		if (Settings.constructorConstructor) {
-			appendDoc(prefix, CONSTRUCTOR)
+			append(prefix).append(CONSTRUCTOR).appendLine()
 		}
 	}
 
@@ -158,32 +181,38 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		"", containingFile, LanguageCommenters.INSTANCE.forLanguage(language) as CodeDocumentationAwareCommenter
 	)
 
-	private fun StringBuilder.appendDoc(prefix: String, vararg strs: String?) {
-		strs.joinTo(this, " ", prefix, LF)
-	}
-
 	private fun StringBuilder.appendDoc(prefix: String, type: String, ktType: KotlinType) {
-		append(prefix).append(type).append(' ').append(ktType.itsType).appendLine()
+		append(prefix).append(type).append(' ').appendDoc(ktType).appendLine()
 	}
 
 	private fun StringBuilder.appendDoc(prefix: String, type: String, name: String, ktType: KotlinType) {
-		append(prefix).append(type).append(' ').append(name).append(' ').append(ktType.itsType).appendLine()
+		append(prefix).append(type).append(' ').append(name).append(' ').appendDoc(ktType).appendLine()
 	}
 
-	private fun StringBuilder.appendDoc(prefix: String, token: String, it: KtCallableDeclaration) {
-		val param = it.name
-		val type = it.itsType
-		if (!param.isNullOrEmpty() && type.isNotEmpty()) {
-			appendDoc(prefix, token, param, type)
+	private fun StringBuilder.appendDoc(type: KotlinType): StringBuilder {
+		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalTypeOrSubtype) {
+			append(DescriptorRenderer.SHORT_NAMES_IN_TYPES.renderType(type))
+		} else {
+			val nullable = type.isMarkedNullable
+			if (nullable) {
+				append('(')
+			}
+			append(type.constructor)
+			append("<")
+			var notFirst = false
+			for (argument in type.arguments) {
+				if (notFirst) {
+					append(", ")
+				} else {
+					notFirst = true
+				}
+				appendDoc(argument.type)
+			}
+			append(">")
+			if (nullable) {
+				append(")?")
+			}
 		}
+		return this
 	}
-
-	private fun StringBuilder.appendDoc(
-		prefix: String, token: String, valueParameters: Iterable<KtCallableDeclaration>,
-	) {
-		for (it in valueParameters) {
-			appendDoc(prefix, token, it)
-		}
-	}
-
 }

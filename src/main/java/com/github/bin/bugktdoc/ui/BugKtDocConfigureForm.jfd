@@ -8,7 +8,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
 			"$columnCount": 1
-			"$rowCount": 24
+			"$rowCount": 23
 			"hGap": 4
 		} ) {
 			name: "panel"
@@ -140,27 +140,18 @@ new FormModel {
 				"indent": 4
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
-				name: "classFieldProperty"
-				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.field@property" )
-				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.field@property.toolTip" )
-			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 14
-				"anchor": 8
-				"indent": 4
-			} )
-			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "classConstructor"
 				"text": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.classDoc.@constructor.toolTip" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 4
-				"row": 15
+				"row": 14
 			} )
 			add( new FormComponent( "javax.swing.JSeparator" ) {
 				name: "separator4"
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 16
+				"row": 15
 				"fill": 3
 				"indent": 2
 			} )
@@ -171,14 +162,14 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"anchor": 8
 				"indent": 2
-				"row": 17
+				"row": 16
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "constructorParam"
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@param" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@param.toolTip" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 18
+				"row": 17
 				"anchor": 8
 				"indent": 4
 			} )
@@ -187,7 +178,7 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.use.constructorDoc.@constructor.toolTip" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 19
+				"row": 18
 				"anchor": 8
 				"indent": 4
 			} )
@@ -195,7 +186,7 @@ new FormModel {
 				name: "separator2"
 				"text": new FormMessage( null, "bugktdoc.options.use.separator.other" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 20
+				"row": 19
 				"fill": 3
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
@@ -203,7 +194,7 @@ new FormModel {
 				"text": new FormMessage( null, "bugktdoc.options.showBuiltinType" )
 				"toolTipText": new FormMessage( null, "bugktdoc.options.showBuiltinType.toolTip" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 21
+				"row": 20
 				"anchor": 8
 				"indent": 2
 			} )
@@ -213,7 +204,7 @@ new FormModel {
 					"JavaCodeGenerator.variableLocal": true
 				}
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
-				"row": 22
+				"row": 21
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
