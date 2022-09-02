@@ -16,9 +16,9 @@ typealias F<T> = () -> T
  */
 abstract class IF {
 	/**
-	 *
+	 * 
 	 * @param T Any?
-	 * @param R () -> Any?
+	 * @param R F<*> /* = Function0<*> */
 	 * @receiver R?
 	 * @param f R
 	 * @return R?

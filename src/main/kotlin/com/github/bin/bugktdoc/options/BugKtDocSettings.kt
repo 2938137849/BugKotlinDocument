@@ -22,7 +22,7 @@ data class BugKtDocSettings(
 	var useClassDoc: Boolean = true,
 	var classGeneric: Boolean = true,
 	var classParam: Boolean = true,
-	var classProperty: Boolean = true,
+	var classProperty: Boolean = false,
 	var classConstructor: Boolean = true,
 	// --separator--
 	var useConstructorDoc: Boolean = true,

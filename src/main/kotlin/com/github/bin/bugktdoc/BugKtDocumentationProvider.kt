@@ -49,14 +49,17 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				if (!Settings.useFunctionDoc) null
 				else docKtNamedFunction(owner, prefix)
 			}
+
 			is KtClass -> {
 				if (!Settings.useClassDoc) null
 				else docKtClass(owner, prefix)
 			}
+
 			is KtConstructor<*> -> {
 				if (!Settings.useConstructorDoc) null
 				else docKtConstructor(owner, prefix)
 			}
+
 			else -> null
 		}
 	}
@@ -186,8 +189,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	private fun StringBuilder.appendDoc(type: KotlinType): StringBuilder {
-		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalTypeOrSubtype) {
-			append(DescriptorRenderer.SHORT_NAMES_IN_TYPES.renderType(type))
+		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalTypeOrSubtype || type.arguments.isEmpty()) {
+			append(descriptorRenderer.renderType(type))
 		}
 		else {
 			val nullable = type.isMarkedNullable
@@ -212,5 +215,11 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			}
 		}
 		return this
+	}
+
+	companion object {
+		private val descriptorRenderer = DescriptorRenderer.SHORT_NAMES_IN_TYPES.withOptions {
+			renderUnabbreviatedType = false
+		}
 	}
 }
