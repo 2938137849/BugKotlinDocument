@@ -1,12 +1,12 @@
 package com.github.bin.bugktdoc
 
-import com.github.bin.bugktdoc.util.getCurrentLineToCurrentChar
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 
 class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
@@ -14,7 +14,7 @@ class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 		// avoid NoClassDef if no Kotlin plugin
 		if (!file.language.id.equals("Kotlin", true)) return super.charTyped(c, project, editor, file)
 
-		if (Settings.theFirstTile && c == '*' && getCurrentLineToCurrentChar(editor).endsWith("/**")) {
+		if (Settings.theFirstTile && c == '*' && editor.endsWith("/**")) {
 			Notifications.Bus.notify(
 				Notification(
 					"com.github.bin.bugktdoc.notification",
@@ -26,5 +26,12 @@ class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 			Settings.theFirstTile = false
 		}
 		return super.charTyped(c, project, editor, file)
+	}
+
+	private fun Editor.endsWith(suffix: String): Boolean {
+		val offset = caretModel.offset
+		val number = document.getLineNumber(offset)
+		return if (number > document.lineCount) false
+		else document.getText(TextRange(document.getLineStartOffset(number), offset)).endsWith(suffix)
 	}
 }
