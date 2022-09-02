@@ -51,7 +51,7 @@ class Example<A, B : CharSequence>(
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Unit?
 	 */
 	fun nullOrUnit() = if (true) null else Unit

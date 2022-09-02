@@ -49,17 +49,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				if (!Settings.useFunctionDoc) null
 				else docKtNamedFunction(owner, prefix)
 			}
-
 			is KtClass -> {
 				if (!Settings.useClassDoc) null
 				else docKtClass(owner, prefix)
 			}
-
 			is KtConstructor<*> -> {
 				if (!Settings.useConstructorDoc) null
 				else docKtConstructor(owner, prefix)
 			}
-
 			else -> null
 		}
 	}
@@ -133,7 +130,6 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 
 		// @param
 		if (Settings.classParam) {
-//			appendDoc(prefix, PARAM, primaryConstructorParameters)
 			val constructorType = type.constructors.find { it.isPrimary }
 			if (constructorType != null) {
 				for (parameter in constructorType.valueParameters) {
@@ -192,7 +188,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun StringBuilder.appendDoc(type: KotlinType): StringBuilder {
 		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalTypeOrSubtype) {
 			append(DescriptorRenderer.SHORT_NAMES_IN_TYPES.renderType(type))
-		} else {
+		}
+		else {
 			val nullable = type.isMarkedNullable
 			if (nullable) {
 				append('(')
@@ -203,7 +200,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			for (argument in type.arguments) {
 				if (notFirst) {
 					append(", ")
-				} else {
+				}
+				else {
 					notFirst = true
 				}
 				appendDoc(argument.type)

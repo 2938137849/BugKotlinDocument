@@ -13,5 +13,3 @@ const val RECEIVER = "@receiver"
 const val CONTEXT_RECEIVER = "@context"
 const val RETURN = "@return"
 const val THROWS = "@throws"
-
-const val LF = "\n"

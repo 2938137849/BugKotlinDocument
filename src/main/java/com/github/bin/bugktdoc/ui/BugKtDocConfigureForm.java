@@ -173,11 +173,11 @@ public class BugKtDocConfigureForm {
 		ResourceBundle bundle = ResourceBundle.getBundle("BugKtDocBundle");
 		useDoc.setText(bundle.getString("bugktdoc.options.use"));
 		useDoc.setToolTipText(bundle.getString("bugktdoc.options.use.toolTip"));
-		separator1.setText(bundle.getString("bugktdoc.options.use.separator"));
+		separator1.setText(bundle.getString("bugktdoc.options.separator"));
 		useFunctionDoc.setText(bundle.getString("bugktdoc.options.use.functionDoc"));
 		useFunctionDoc.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.toolTip"));
-		funGeneric.setText(bundle.getString("bugktdoc.options.use.functionDoc.generic@param"));
-		funGeneric.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.generic@param.toolTip"));
+		funGeneric.setText(bundle.getString("bugktdoc.options.use.functionDoc.@param"));
+		funGeneric.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.@param.toolTip"));
 		funContext.setText(bundle.getString("bugktdoc.options.use.functionDoc.@context"));
 		funContext.setToolTipText(bundle.getString("bugktdoc.options.use.functionDoc.@context.toolTip"));
 		funReceiver.setText(bundle.getString("bugktdoc.options.use.functionDoc.@receiver"));
@@ -204,7 +204,7 @@ public class BugKtDocConfigureForm {
 		constructorParam.setToolTipText(bundle.getString("bugktdoc.options.use.constructorDoc.@param.toolTip"));
 		constructorConstructor.setText(bundle.getString("bugktdoc.options.use.constructorDoc.@constructor"));
 		constructorConstructor.setToolTipText(bundle.getString("bugktdoc.options.use.constructorDoc.@constructor.toolTip"));
-		separator2.setText(bundle.getString("bugktdoc.options.use.separator.other"));
+		separator2.setText(bundle.getString("bugktdoc.options.separator.other"));
 		showBuiltinType.setText(bundle.getString("bugktdoc.options.showBuiltinType"));
 		showBuiltinType.setToolTipText(bundle.getString("bugktdoc.options.showBuiltinType.toolTip"));
 		// JFormDesigner - End of component i18n initialization  //GEN-END:initI18n

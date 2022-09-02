@@ -26,7 +26,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "com.intellij.ui.TitledSeparator" ) {
 				name: "separator1"
-				"text": new FormMessage( null, "bugktdoc.options.use.separator" )
+				"text": new FormMessage( null, "bugktdoc.options.separator" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 1
 				"fill": 3
@@ -43,8 +43,8 @@ new FormModel {
 			} )
 			add( new FormComponent( "com.intellij.ui.components.JBCheckBox" ) {
 				name: "funGeneric"
-				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.generic@param" )
-				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.generic@param.toolTip" )
+				"text": new FormMessage( null, "bugktdoc.options.use.functionDoc.@param" )
+				"toolTipText": new FormMessage( null, "bugktdoc.options.use.functionDoc.@param.toolTip" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 3
 				"anchor": 8
@@ -184,7 +184,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "com.intellij.ui.TitledSeparator" ) {
 				name: "separator2"
-				"text": new FormMessage( null, "bugktdoc.options.use.separator.other" )
+				"text": new FormMessage( null, "bugktdoc.options.separator.other" )
 			}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
 				"row": 19
 				"fill": 3
