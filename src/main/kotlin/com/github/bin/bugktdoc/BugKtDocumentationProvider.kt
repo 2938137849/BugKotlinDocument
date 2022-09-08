@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtConstructor
 import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.renderer.DescriptorRenderer
+import org.jetbrains.kotlin.renderer.*
 import org.jetbrains.kotlin.resolve.constants.KClassValue
 import org.jetbrains.kotlin.resolve.descriptorUtil.module
 import org.jetbrains.kotlin.types.KotlinType
@@ -215,7 +215,9 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	companion object {
-		private val descriptorRenderer = DescriptorRenderer.SHORT_NAMES_IN_TYPES.withOptions {
+		private val descriptorRenderer = DescriptorRenderer.withOptions {
+			classifierNamePolicy = ClassifierNamePolicy.SHORT
+			parameterNameRenderingPolicy = ParameterNameRenderingPolicy.ONLY_NON_SYNTHESIZED
 			renderUnabbreviatedType = false
 		}
 	}

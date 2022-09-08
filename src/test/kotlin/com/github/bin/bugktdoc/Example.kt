@@ -13,7 +13,7 @@ package com.github.bin.bugktdoc
 class Example<A, B : CharSequence>(
 	a: (context(Int)Pair<String, *>?.() -> Int)?,
 	private val b: Result<Int>?,
-) {
+) : JavaClass() {
 	private var c: String? = null
 
 	/**
@@ -54,4 +54,20 @@ class Example<A, B : CharSequence>(
 	 * @return Unit?
 	 */
 	fun nullOrUnit() = if (true) null else Unit
+
+	/**
+	 *
+	 * @return (Mutable)Map<String!, *>!
+	 */
+	override fun getMap() = super.getMap()
+
+	/**
+	 *
+	 * @return (Mutable)List<*>!
+	 */
+	override fun getList() = super.getList()
+
+	var value: String
+		get() = ""
+		set(v) {}
 }

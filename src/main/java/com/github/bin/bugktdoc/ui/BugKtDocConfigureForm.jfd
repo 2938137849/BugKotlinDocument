@@ -208,7 +208,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
-			"size": new java.awt.Dimension( 680, 810 )
+			"size": new java.awt.Dimension( 680, 1080 )
 		} )
 	}
 }
