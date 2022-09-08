@@ -104,9 +104,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm(), Configurable {
 	override fun disposeUIResources() {
 		fun <T : Container> dispose(vararg boxes: KMutableProperty0<T?>) {
 			for (box in boxes) {
-				box.get()?.run {
-					removeAll()
-				}
+				box.get()?.removeAll()
 				box.set(null)
 			}
 		}
