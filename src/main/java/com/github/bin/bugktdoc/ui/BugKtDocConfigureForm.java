@@ -19,8 +19,12 @@ import java.util.ResourceBundle;
  */
 public class BugKtDocConfigureForm {
 
+	protected BugKtDocConfigureForm() {
+		initComponents();
+	}
+
 	@SuppressWarnings({"UseDPIAwareInsets", "AlibabaMethodTooLong"})
-	protected void initComponents() {
+	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		panel = new JPanel();
 		useDoc = new JBCheckBox();
@@ -168,6 +172,7 @@ public class BugKtDocConfigureForm {
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
+	@SuppressWarnings({"AlibabaMethodTooLong"})
 	private void initComponentsI18n() {
 		// JFormDesigner - Component i18n initialization - DO NOT MODIFY  //GEN-BEGIN:initI18n
 		ResourceBundle bundle = ResourceBundle.getBundle("BugKtDocBundle");
