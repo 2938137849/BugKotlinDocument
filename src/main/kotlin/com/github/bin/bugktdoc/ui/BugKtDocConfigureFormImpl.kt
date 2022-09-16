@@ -2,7 +2,7 @@ package com.github.bin.bugktdoc.ui
 
 import com.github.bin.bugktdoc.options.BugKtDocSettings as DocSetting
 import com.github.bin.bugktdoc.BugKtDocBundle
-import com.github.bin.bugktdoc.Settings
+import com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsObject.settings
 import com.intellij.openapi.options.Configurable
 import com.intellij.ui.components.JBCheckBox
 import java.lang.ref.SoftReference
@@ -14,7 +14,7 @@ import kotlin.reflect.KMutableProperty1
  * @date 2018/4/2
  */
 class BugKtDocConfigureFormImpl : Configurable {
-	private var local: DocSetting = Settings.copy()
+	private var local: DocSetting = settings.copy()
 	private var focused: SoftReference<JComponent> = SoftReference(null)
 	private fun JBCheckBox.init(mapping: KMutableProperty1<DocSetting, Boolean>): JBCheckBox {
 		isSelected = mapping.get(local)
@@ -78,11 +78,11 @@ class BugKtDocConfigureFormImpl : Configurable {
 	}
 
 	override fun isModified(): Boolean {
-		return local != Settings
+		return local != settings
 	}
 
 	override fun reset() {
-		local = Settings.copy()
+		local = settings.copy()
 	}
 
 	override fun getDisplayName() = BugKtDocBundle("bugktdoc.settings.title")
@@ -90,7 +90,7 @@ class BugKtDocConfigureFormImpl : Configurable {
 	override fun getHelpTopic(): String = BugKtDocBundle("bugktdoc.settings.content")
 
 	override fun apply() {
-		Settings = local.copy()
+		settings = local.copy()
 	}
 
 	override fun cancel() {

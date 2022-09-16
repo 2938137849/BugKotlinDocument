@@ -1,6 +1,7 @@
 package com.github.bin.bugktdoc
 
 import com.github.bin.bugktdoc.constants.*
+import com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsObject.settings
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.lang.LanguageCommenters
@@ -42,19 +43,19 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String? {
-		if (!Settings.useDoc || contextComment === null) return null
+		if (!settings.useDoc || contextComment === null) return null
 		val prefix = contextComment.getDocPrefix()
 		return when (val owner = contextComment.parent ?: return null) {
 			is KtNamedFunction -> {
-				if (!Settings.useFunctionDoc) null
+				if (!settings.useFunctionDoc) null
 				else docKtNamedFunction(owner, prefix)
 			}
 			is KtClass -> {
-				if (!Settings.useClassDoc) null
+				if (!settings.useClassDoc) null
 				else docKtClass(owner, prefix)
 			}
 			is KtConstructor<*> -> {
-				if (!Settings.useConstructorDoc) null
+				if (!settings.useConstructorDoc) null
 				else docKtConstructor(owner, prefix)
 			}
 			else -> null
@@ -67,36 +68,36 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun docKtNamedFunction(owner: KtNamedFunction, prefix: String): String? = buildString {
 		val type = owner.resolveToDescriptorIfAny() ?: return null
 
-		if (Settings.funGeneric) {
+		if (settings.funGeneric) {
 			for (it in type.typeParameters) {
 				appendDoc(prefix, PARAM, it.name.asString(), it.starProjectionType())
 			}
 		}
 
-		if (Settings.funContext) {
+		if (settings.funContext) {
 			for (parameter in type.contextReceiverParameters) {
 				appendDoc(prefix, CONTEXT_RECEIVER, parameter.type)
 			}
 		}
 
 		// @receiver
-		if (Settings.funReceiver) {
+		if (settings.funReceiver) {
 			type.extensionReceiverParameter?.let {
 				appendDoc(prefix, RECEIVER, it.type)
 			}
 		}
 
 		// @param
-		if (Settings.funParam) {
+		if (settings.funParam) {
 			for (parameter in type.valueParameters) {
 				appendDoc(prefix, PARAM, parameter.name.asString(), parameter.type)
 			}
 		}
 
 		// @return
-		if (Settings.funReturn) {
+		if (settings.funReturn) {
 			val returnType = type.returnType!!
-			if (Settings.alwaysShowUnitReturnType
+			if (settings.alwaysShowUnitReturnType
 				|| owner.hasDeclaredReturnType()
 				|| returnType.isMarkedNullable
 				|| returnType.toString() != "Unit"
@@ -106,7 +107,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 
 		// @throws
-		if (Settings.funThrows) {
+		if (settings.funThrows) {
 			type.annotations.findAnnotation(FqName("kotlin.jvm.Throws"))?.let {
 				it.allValueArguments[Name.identifier("exceptionClasses")]?.value as? List<*>
 			}?.let {
@@ -122,14 +123,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	private fun docKtClass(owner: KtClass, prefix: String): String? = buildString {
 		val type = owner.resolveToDescriptorIfAny() ?: return null
 
-		if (Settings.classGeneric) {
+		if (settings.classGeneric) {
 			for (parameter in type.declaredTypeParameters) {
 				appendDoc(prefix, PARAM, parameter.name.asString(), parameter.starProjectionType())
 			}
 		}
 
 		// @param
-		if (Settings.classParam) {
+		if (settings.classParam) {
 			val constructorType = type.constructors.find { it.isPrimary }
 			if (constructorType != null) {
 				for (parameter in constructorType.valueParameters) {
@@ -144,7 +145,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 //		}
 
 		// order: 2. class fields -> @property
-		if (Settings.classProperty) {
+		if (settings.classProperty) {
 			for (it in owner.getProperties()) {
 				val descriptor = it.resolveToDescriptorIfAny() ?: continue
 				appendDoc(prefix, PROPERTY, descriptor.name.asString(), descriptor.type)
@@ -152,7 +153,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 
 		// @constructor
-		if (Settings.classConstructor) {
+		if (settings.classConstructor) {
 			append(prefix).append(CONSTRUCTOR).appendLine()
 		}
 	}
@@ -161,14 +162,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		val type = owner.resolveToDescriptorIfAny() as? ConstructorDescriptor ?: return null
 
 		// @param
-		if (Settings.constructorParam) {
+		if (settings.constructorParam) {
 			for (parameter in type.valueParameters) {
 				appendDoc(prefix, PARAM, parameter.name.asString(), parameter.type)
 			}
 		}
 
 		// @constructor
-		if (Settings.constructorConstructor) {
+		if (settings.constructorConstructor) {
 			append(prefix).append(CONSTRUCTOR).appendLine()
 		}
 	}
@@ -186,7 +187,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	private fun StringBuilder.appendDoc(type: KotlinType): StringBuilder {
-		if (!Settings.showBuiltinType || !type.isBuiltinFunctionalType || type.arguments.isEmpty()) {
+		if (!settings.showBuiltinType || !type.isBuiltinFunctionalType || type.arguments.isEmpty()) {
 			append(descriptorRenderer.renderType(type))
 		}
 		else {

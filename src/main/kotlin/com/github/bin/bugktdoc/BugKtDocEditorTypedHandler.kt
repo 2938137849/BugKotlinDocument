@@ -1,5 +1,6 @@
 package com.github.bin.bugktdoc
 
+import com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsObject.settings
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -14,7 +15,7 @@ class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 		// avoid NoClassDef if no Kotlin plugin
 		if (!file.language.id.equals("Kotlin", true)) return super.charTyped(c, project, editor, file)
 
-		if (Settings.theFirstTile && c == '*' && editor.endsWith("/**")) {
+		if (settings.theFirstTile && c == '*' && editor.endsWith("/**")) {
 			Notifications.Bus.notify(
 				Notification(
 					"com.github.bin.bugktdoc.notification",
@@ -23,7 +24,7 @@ class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 					NotificationType.INFORMATION
 				)
 			)
-			Settings.theFirstTile = false
+			settings.theFirstTile = false
 		}
 		return super.charTyped(c, project, editor, file)
 	}
