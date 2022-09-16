@@ -18,8 +18,9 @@ class BugKtDocConfigureFormImpl : Configurable {
 	private var focused: SoftReference<JComponent> = SoftReference(null)
 	private fun JBCheckBox.init(mapping: KMutableProperty1<DocSetting, Boolean>): JBCheckBox {
 		isSelected = mapping.get(local)
+		val setter = mapping.setter
 		addActionListener {
-			mapping.set(local, (it.source as JBCheckBox).isSelected)
+			setter(local, (it.source as JBCheckBox).isSelected)
 		}
 		return this
 	}
