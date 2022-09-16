@@ -12,7 +12,7 @@ var Settings by ApplicationManager.getApplication().getService(BugKtDocGlobalSet
 object BugKtDocBundle {
 	@NonNls
 	private const val BUNDLE = "BugKtDocBundle"
-	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
+	private val bundle: ResourceBundle by lazy(LazyThreadSafetyMode.NONE) { ResourceBundle.getBundle(BUNDLE) }
 
 	@JvmStatic
 	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String) = AbstractBundle.message(bundle, key)
