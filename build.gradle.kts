@@ -6,7 +6,7 @@ fun env(key: String) = System.getenv(key)
 plugins {
 	id("java")
 	id("org.jetbrains.intellij") version "1.9.0"
-	kotlin("jvm") version "1.7.10"
+	kotlin("jvm") version "1.8.20"
 }
 
 group = properties("pluginGroup")
@@ -25,7 +25,6 @@ java {
 
 dependencies {
 	// implementation(kotlin("stdlib"))
-	testImplementation("junit:junit:4.13.2")
 }
 
 intellij {
@@ -61,7 +60,7 @@ tasks {
 	}
 	compileTestKotlin {
 		kotlinOptions.jvmTarget = VERSION_17.toString()
-		kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+//		kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
 	}
 	signPlugin {
 		certificateChain.set(env("CERTIFICATE_CHAIN"))

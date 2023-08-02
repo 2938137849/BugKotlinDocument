@@ -43,6 +43,7 @@ class BugKtDocConfigureFormImpl : Configurable {
 				setEnabled(it.source as JBCheckBox, boxes)
 			}
 		}
+		setEnabled(this, boxes)
 		return this
 	}
 

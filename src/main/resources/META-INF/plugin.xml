@@ -1,22 +1,24 @@
 <idea-plugin>
-	<id>com.github.bin.bugktdoc</id>
-	<name>BugKotlinDocument By Bin</name>
-	<vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
+    <id>com.github.bin.bugktdoc</id>
+    <name>BugKotlinDocument By Bin</name>
+    <vendor email="2938137849@qq.com" url="https://github.com/2938137849/BugKotlinDocument">2938137849</vendor>
 
-	<depends optional="true" config-file="kotlin-doc.xml">org.jetbrains.kotlin</depends>
-	<depends>com.intellij.modules.lang</depends>
+    <depends optional="true" config-file="kotlin-doc.xml">org.jetbrains.kotlin</depends>
+    <depends>com.intellij.modules.lang</depends>
 
-	<description>To generate Kotlin document comment in Kotlin File</description>
-	<change-notes>Disable it on editor | BugKotlinDocument.</change-notes>
+    <description>To generate Kotlin document comment in Kotlin File</description>
+    <change-notes>Disable it on editor | BugKotlinDocument.</change-notes>
 
-	<extensions defaultExtensionNs="com.intellij">
-		<applicationConfigurable groupId="editor"
-			id="com.github.bin.bugktdoc.applicationConfigurable"
-			instance="com.github.bin.bugktdoc.ui.BugKtDocConfigureFormImpl"/>
-		<applicationService
-			serviceInterface="com.github.bin.bugktdoc.options.BugKtDocGlobalSettings"
-			serviceImplementation="com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
-		<notificationGroup id="com.github.bin.bugktdoc.notification" displayType="BALLOON" isLogByDefault="true"/>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                groupId="editor"
+                displayName="BugKotlinDocument"
+                id="com.github.bin.bugktdoc.applicationConfigurable"
+                instance="com.github.bin.bugktdoc.ui.BugKtDocConfigureFormImpl"/>
+        <applicationService
+                serviceInterface="com.github.bin.bugktdoc.options.BugKtDocGlobalSettings"
+                serviceImplementation="com.github.bin.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
+        <notificationGroup id="com.github.bin.bugktdoc.notification" displayType="BALLOON" isLogByDefault="true"/>
 
-	</extensions>
+    </extensions>
 </idea-plugin>
